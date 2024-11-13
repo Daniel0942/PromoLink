@@ -1,0 +1,52 @@
+.txt_h1 {
+    text-align: center;
+    color: #2A2E35;
+    font-size: 44px;
+    font-weight: 700;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.form {
+    width: 500px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0 auto;
+
+    & .caixa_input {
+        display: flex;
+        gap: 15px;
+        & input {
+            width: 438px;
+            height: 29px;
+            background-color: #f5f5f5;
+            font-size: 18px;
+            font-weight: 500;
+            border: none;
+            padding: 5px;
+            border-bottom: 2px solid #00000080;
+        }
+    }
+    /* Desativar input do user*/
+    & .desativar_input {
+        display: none;
+    }
+    /* Ativar input do user na página de registrar */
+    & .ativar_input {
+        display: flex;
+    }
+
+    & p {
+        color: #00000095;
+        text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        font-size: 16px;
+        font-weight: 400;
+        text-align: right;
+        & a {
+            color: #00000095;
+        }
+    }
+}
+
+    
