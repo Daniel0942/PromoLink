@@ -4,20 +4,17 @@ import menu from "../../img/menu.svg"
 import btn_fechar from "../../img/btn_fechar.svg"
 import icone_user from "../../img/icone_user.svg"
 import user_logout from "../../img/user_logout.svg"
-import { useEffect } from "react"
+import { useState } from "react"
 
 function HeaderPrincipal() {
-    useEffect(()=>{
-    //Variáveis do menu
-    let abrir_menu = document.getElementById("abrir_menu")
-    let div_menu = document.getElementById("menu")
-    //let fechar_menu = document.getElementById("fechar_menu")
+    let [Menu, setMenu] = useState(false)
 
-    abrir_menu.addEventListener("click", ()=> {
-        div_menu.classList.add("Menu_JS")
-    })
-    },[])
-    
+    function abrirMenu() {
+        setMenu( ! Menu )
+    }
+    function fecharMenu() {
+        setMenu(false)
+    }
 
     return (
         <div className={style.header}>
@@ -31,12 +28,12 @@ function HeaderPrincipal() {
                 </ul>
             </nav>
 
-            <div className={style.abrir_menu} id="abrir_menu">
+            <div className={style.abrir_menu} onClick={abrirMenu}>
                 <img src={menu} alt="icone de menu do figma" />
             </div>
 
-            <div className={style.menu} id="menu">
-                <div className={style.box_btn_txt} id="fechar_menu">
+            <div className={`${style.menu} ${Menu ? style.Menu_JS : ""}`}>
+                <div className={style.box_btn_txt} onClick={fecharMenu}>
                     <img src={btn_fechar} className={style.btn_fechar}
                     alt="icone fechar"/>
 

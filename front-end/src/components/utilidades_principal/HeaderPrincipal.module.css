@@ -4,7 +4,7 @@
     background-color: #2A2E35;
     display: flex;
     justify-content: space-around;
-    padding: 20px;
+    padding: 20px 0px;
 
     & .btns_menu {
         & ul { 
@@ -27,10 +27,11 @@
 
     & .menu {
         width: 700px;
-        height: 1400px;
+        height: 100%;
         background-color: #2A2E35;
         position: absolute;
         right: 0px;
+        transition: .3s;
         display: none;
 
         & .box_btn_txt {
@@ -57,6 +58,6 @@
     }
 }
 /* Ativando menu com a classe JS */
-.menu.Menu_JS {
+.menu.Menu_JS{
     display: block;
 }
