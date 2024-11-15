@@ -24,4 +24,39 @@
     & .abrir_menu { 
         margin-top: 46px;
     }
+
+    & .menu {
+        width: 700px;
+        height: 1400px;
+        background-color: #2A2E35;
+        position: absolute;
+        right: 0px;
+        display: none;
+
+        & .box_btn_txt {
+            display: flex;
+            justify-content: space-between;
+            margin: 23px;
+            
+            & h1 {
+                padding: 15px;
+                background-color: #1F51FF;
+                color: #FFF;
+                font-size: 21px;
+                font-weight: 700;
+                border-radius: 20px;
+            }
+        }
+        & .btns_users { 
+            width: 215px;
+            display: flex;
+            justify-content: space-between;
+            margin-left: auto;
+            margin-right: 23px;
+        }
+    }
+}
+/* Ativando menu com a classe JS */
+.menu.Menu_JS {
+    display: block;
 }
