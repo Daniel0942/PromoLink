@@ -1,5 +1,6 @@
 import Form from "../utilidades_login/Form"
 import HeaderLogin from "../utilidades_login/HeaderLogin"
+
 function Login() {
     return (
         <>  
@@ -13,7 +14,8 @@ function Login() {
             txtTitulo="Login" 
             txt_P1="Não tem conta?"
             txt_P2="cadastre-se aqui"
-            rota_link="/registrar"/> 
+            rota_link="/registrar"
+            requisisao="logar"/> 
         </>
     )
 }

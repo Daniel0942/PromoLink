@@ -15,7 +15,8 @@ function Registrar() {
             txtButton="Cadastrar"
             txt_P1="Já tem conta?"
             txt_P2="logue aqui"
-            rota_link="/"/>
+            rota_link="/"
+            requisisao="registrar"/>
         </>
     )
 }
