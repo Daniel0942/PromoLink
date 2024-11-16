@@ -1,0 +1,14 @@
+.msg {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 15px 0px;
+    margin: 10px 0px;
+    box-shadow: 5px 3px 5px #41414157;
+}
+.sucess {
+    background-color: #00FF9D;
+}
+.danger {
+    background-color: red;
+}

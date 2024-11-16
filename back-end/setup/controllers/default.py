@@ -1,6 +1,7 @@
 from setup import app
 from flask import request, jsonify
 from setup.models.table import Conexao
+import mysql.connector.errors
 
 # função pra retornar dados json do login
 @app.route("/users")
@@ -22,9 +23,19 @@ def inserir_usuarios():
 
     conectar = Conexao()
     cursor = conectar.cursor()
-    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-    conectar.commit()
-    cursor.close()
-    conectar.close()
-    return jsonify({"message": "Enviado com sucesso"}), 200
+    try:
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
+        conectar.commit()
+        return jsonify({"message": "Enviado com sucesso"}), 200
+    except mysql.connector.errors.IntegrityError as erro:
+        if erro.errno == 1062:
+            print(f"[ERROR], {username} já existe no banco de dados")
+            return jsonify({"ERRO": f"{username} ja existe no banco de dados"}), 409
+        else:
+            print(f"Erro inesperado: {str(erro)}")
+            return jsonify({"ERRO": "Erro ao registrar usuário"}), 500
+    finally:
+        cursor.close()
+        conectar.close()
+    
 

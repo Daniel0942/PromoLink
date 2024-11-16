@@ -7,12 +7,19 @@ import { Link } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import Message from "../utilidades_global/Message.jsx"
 
 function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_P1, txt_P2, rota_link , requisisao}) {
     let [username, setUsername] = useState("")
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
     let navigate = useNavigate() // redirecionamentos
+
+    // desativar a msg sucesso ou erro
+    let [msgSucess, setMsgSucess] = useState(false)
+    let [msgDanger, setMsgDanger] = useState(false)
+    // state pra msgs de servidor, e coloca-las na msg de erro
+    let [txtServidor, setTxtServidor] = useState("") 
 
     // Fazer requisião GET e verificar se o email e senha é igual ao do banco de dados, se for será redirecionado para a página principal
     function Logar(e) {
@@ -28,7 +35,15 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                     navigate("/principal")
                 } 
                 else {
-                    console.log("Não tem usuário !")
+                    // aparecer msg de erro
+                    setMsgDanger(true)
+                    setEmail("")
+                    setPassword("")
+                    // retirar msg após 3s
+                    setTimeout(()=> {
+                        setMsgDanger(false)
+                    }, 3000)
+                    
                 }  
             }
         })
@@ -47,13 +62,26 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 password: password
             })
             .then(()=>{
-                navigate("/")})
-            .catch((error)=> {
-                console.error(`Deu o erro ao registrar novo usuário: ${error}`)
+                setMsgSucess(true)
+                setTimeout(()=> {
+                    setMsgSucess(false)
+                    navigate("/")
+                }, 3000)   
             })
-        }
-        else {
-            alert("[ERRO], Digite os campos obrigatórios !")
+            .catch((error)=> {
+                // pegando respostas do servidor, mandados lá do back-end
+                if (error.response) {
+                    let servidor_msg = error.response.data.ERRO
+                    setTxtServidor(servidor_msg) // colocando no state
+                    console.log(`Dados do servidor: ${servidor_msg}`)
+
+                    setMsgDanger(true)
+                    setTimeout(()=> {
+                        setMsgDanger(false)
+                    }, 3000)
+                }
+
+            })
         }
     }
     return (
@@ -84,6 +112,10 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 <p>{txt_P1} <Link to={rota_link}>{txt_P2}</Link></p>
                 <Button txt={txtButton}/>
             </form>
+
+            {msgSucess ? <Message txt="Registrado com sucesso" estilo="sucess"/> : ""}
+            {msgDanger ? <Message 
+            txt={txtServidor.length > 0 ? txtServidor : "Ocorreu um erro, tente novamente" }estilo="danger"/> : ""}
         </>
     )
 }
