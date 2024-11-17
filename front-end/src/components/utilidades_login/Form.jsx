@@ -18,7 +18,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     // desativar a msg sucesso ou erro
     let [msgSucess, setMsgSucess] = useState(false)
     let [msgDanger, setMsgDanger] = useState(false)
-    // state pra msgs de servidor, e coloca-las na msg de erro
+    // state pra msgs de servidor, e coloca-las nas msg de erro
     let [txtServidor, setTxtServidor] = useState("") 
 
     // Fazer requisião GET e verificar se o email e senha é igual ao do banco de dados, se for será redirecionado para a página principal
@@ -42,13 +42,17 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                     // retirar msg após 3s
                     setTimeout(()=> {
                         setMsgDanger(false)
-                    }, 3000)
-                    
+                    }, 3000) 
                 }  
             }
         })
-        .catch(error => {
-            console.error(`Ocorreu o erro ao buscar dados: ${error}`)
+        .catch((error) => {
+            console.log(`Ocorreu o erro: ${error}`)
+            setTxtServidor(`[ERROR], Sem conexão com o servidor`)
+            setMsgDanger(true)
+            setTimeout(()=> {
+                setMsgDanger(false)
+            }, 3000)
         })  
     }
 
@@ -80,7 +84,6 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                         setMsgDanger(false)
                     }, 3000)
                 }
-
             })
         }
     }
