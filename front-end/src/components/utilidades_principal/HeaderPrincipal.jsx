@@ -5,10 +5,11 @@ import btn_fechar from "../../img/btn_fechar.svg"
 import icone_user from "../../img/icone_user.svg"
 import user_logout from "../../img/user_logout.svg"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
-function HeaderPrincipal() {
+function HeaderPrincipal({username}) {
+    // Funções menu dinâmico
     let [Menu, setMenu] = useState(false)
-
     function abrirMenu() {
         setMenu( ! Menu )
     }
@@ -37,13 +38,21 @@ function HeaderPrincipal() {
                     <img src={btn_fechar} className={style.btn_fechar}
                     alt="icone fechar"/>
 
-                    <h1>Nome de usuário</h1>
+                    <h1>{username}</h1>
                 </div>
 
                 <div className={style.btns_users}>
+                    {username == "Visitante" ?
+                        <Link to="/Registrar">
+                            <img src={icone_user} alt="icone do user do figma"/>
+                        </Link>
 
-                    <img src={icone_user} alt="icone do user do figma"/>
-                    <img src={user_logout} alt="icone do logout do figma"/>
+                    : <Link to="/">
+                        <img src={user_logout} alt="icone do logout do figma"/>
+                    </Link>
+                    } 
+
+                    
                 </div>
             </div>
         </div>

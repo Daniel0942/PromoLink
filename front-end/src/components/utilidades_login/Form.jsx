@@ -13,15 +13,19 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     let [username, setUsername] = useState("")
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
+    let [msgVisible, setMsgVisible] = useState(false)
+    let [txtMessage, setTxtMessage] = useState("") 
+    let [msgStyle, setMsgStyle] = useState("")
     let navigate = useNavigate() // redirecionamentos
 
-    // desativar a msg sucesso ou erro
-    let [msgSucess, setMsgSucess] = useState(false)
-    let [msgDanger, setMsgDanger] = useState(false)
-    // state pra msgs de servidor, e coloca-las nas msg de erro
-    let [txtServidor, setTxtServidor] = useState("") 
+    // função de mostrar msg de erro ou sucesso [danger, sucess]
+    function ShowMsg(msg, style) {
+        setTxtMessage(msg) 
+        setMsgStyle(style)
+        setMsgVisible(true)
+        setTimeout(()=> {setMsgVisible(false)}, 3000)
+    }
 
-    // Fazer requisião GET e verificar se o email e senha é igual ao do banco de dados, se for será redirecionado para a página principal
     function Logar(e) {
         e.preventDefault()
         axios.get("http://127.0.0.1:5000/users")
@@ -29,34 +33,24 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
             let dados = response.data
             if (dados) { 
                 let user = dados.find((user)=> user.email === email && user.password === password)
-                console.log(user)
                 // se tiver email e senha será redirecionado
                 if (user) {
-                    navigate("/principal")
+                    // O navigate do React Router permite passar um objeto state para a próxima página.
+                    navigate("/principal", {state: {username: user.username}})
                 } 
                 else {
-                    // aparecer msg de erro
-                    setMsgDanger(true)
                     setEmail("")
                     setPassword("")
-                    // retirar msg após 3s
-                    setTimeout(()=> {
-                        setMsgDanger(false)
-                    }, 3000) 
+                    ShowMsg("Usuário ou senha incorretos!", "danger")
                 }  
             }
         })
         .catch((error) => {
             console.log(`Ocorreu o erro: ${error}`)
-            setTxtServidor(`[ERROR], Sem conexão com o servidor`)
-            setMsgDanger(true)
-            setTimeout(()=> {
-                setMsgDanger(false)
-            }, 3000)
+            ShowMsg("[ERROR], Sem conexão com o servidor", "danger")
         })  
     }
 
-    // Fazer requisisão POST
     function Registrar(e) { 
         e.preventDefault()
         if (username.length > 0 && email.length > 0 && password.length > 0) { 
@@ -66,9 +60,8 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 password: password
             })
             .then(()=>{
-                setMsgSucess(true)
+                ShowMsg(`${username} registrado com sucesso`, "sucess")
                 setTimeout(()=> {
-                    setMsgSucess(false)
                     navigate("/")
                 }, 3000)   
             })
@@ -76,17 +69,12 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 // pegando respostas do servidor, mandados lá do back-end
                 if (error.response) {
                     let servidor_msg = error.response.data.ERRO
-                    setTxtServidor(servidor_msg) // colocando no state
-                    console.log(`Dados do servidor: ${servidor_msg}`)
-
-                    setMsgDanger(true)
-                    setTimeout(()=> {
-                        setMsgDanger(false)
-                    }, 3000)
+                    ShowMsg(servidor_msg, "danger")
                 }
             })
         }
     }
+
     return (
         <>  
             <h1 className={style.txt_h1}>{txtTitulo}</h1>
@@ -116,9 +104,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 <Button txt={txtButton}/>
             </form>
 
-            {msgSucess ? <Message txt="Registrado com sucesso" estilo="sucess"/> : ""}
-            {msgDanger ? <Message 
-            txt={txtServidor.length > 0 ? txtServidor : "Ocorreu um erro, tente novamente" }estilo="danger"/> : ""}
+            {msgVisible && <Message txt={txtMessage} estilo={msgStyle}/>}
         </>
     )
 }

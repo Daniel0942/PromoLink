@@ -49,11 +49,8 @@
             }
         }
         & .btns_users { 
-            width: 215px;
-            display: flex;
-            justify-content: space-between;
-            margin-left: auto;
-            margin-right: 23px;
+            text-align: right;
+            margin-right: 14px;
         }
     }
 }
