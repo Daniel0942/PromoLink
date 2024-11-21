@@ -8,7 +8,7 @@ function MiniForm() {
             <input type="text" name="site" list="sites_disponiveis" placeholder="Escolha uma opção"/>
             
             <datalist id="sites_disponiveis">
-                <option value="Amazon"></option>
+                <option value="Kabum"></option>
                 <option value="Casas Bahia"></option>
                 <option value="Magazine Luiza"></option>
             </datalist>
