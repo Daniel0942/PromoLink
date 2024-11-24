@@ -1,35 +1,7 @@
 import style from "./CaixaProdutos.module.css"
-import { useEffect, useState } from "react"
-import axios from "axios"
 import Loading from "../utilidades_global/Loading"
 
-function CaixaProdutos() {
-    let [gerenciador, setGerenciador] = useState([])
-    let [carregamento, setCarregamento] = useState(false)
-
-    // Função para buscar os produtos da API
-    const buscarProdutos = () => {
-        setCarregamento(true)
-        axios.get("http://127.0.0.1:5000/produtos")
-            .then(response => {
-                setCarregamento(false)
-                setGerenciador(response.data); // Atualiza com os produtos
-            })
-            .catch(error => {
-                console.error(`Ocorreu o erro na caixa de produtos: ${error}`);
-            });
-    };
-
-    // Carregar os produtos quando o componente for montado
-    useEffect(() => {
-        buscarProdutos();
-        // Definir polling para atualizar a cada 5 segundos
-        const intervalId = setInterval(buscarProdutos, 5000); // 5 segundos
-
-        // Limpar o intervalo quando o componente for desmontado
-        return () => clearInterval(intervalId);
-    }, []);
-
+function CaixaProdutos({gerenciador, carregamento}) {
     return (
         <>
             {carregamento && <Loading/>}

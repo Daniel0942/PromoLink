@@ -9,17 +9,40 @@ function Principal() {
     let location = useLocation() //buscar state da página
     let username = location.state?.username || "Visitante" //armazenar state do username
     let [site, setSite] = useState("")
+    let [gerenciador, setGerenciador] = useState([])
+    let [carregamento, setCarregamento] = useState(false)
+
     
     function EnviarSite(e) {
         e.preventDefault()
+        setCarregamento(true)
         axios.post(`http://127.0.0.1:5000/produtos/${site}`)
+        .then(()=> {
+            BuscarProdutos()
+        })
         .catch(error => {console.error(`Ocorreu o erro: ${error}`)})
     }
-    return(
+
+    // Função para buscar os produtos da API
+    async function BuscarProdutos() {
+        try {
+            let response = await axios.get("http://127.0.0.1:5000/produtos")
+            setGerenciador(response.data) // Atualiza com os produtos
+        } 
+        catch (err) {
+            console.error(`Ocorreu o erro na caixa de produtos: ${err}`)
+        }
+        finally {setCarregamento(false)}
+    }
+
+    return (
         <>
             <HeaderPrincipal username={username}/>
             <MiniForm setSite={setSite} função={EnviarSite}/>
-            <CaixaProdutos/>
+            <CaixaProdutos 
+            gerenciador={gerenciador} 
+            carregamento={carregamento}
+            />
         </>
     )
 }
