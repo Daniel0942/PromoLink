@@ -17,7 +17,7 @@ function CaixaProdutos({gerenciador, carregamento}) {
                         </div>
                         ))
                     ) : (
-                        <p>Não há produtos disponíveis</p>
+                        <p>Nenhum site selecionado!</p>
                     )}
                 </div>
             </>
