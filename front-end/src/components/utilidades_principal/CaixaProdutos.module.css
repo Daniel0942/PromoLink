@@ -12,23 +12,42 @@
 
     & .box_produtos {
         display: flex;
-        width: 280px;
+        width: 300px;
         padding: 25px 0px;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background-color: #3F3F3F;
-        border-radius: 30px;
+        background-color: #3f3f3f4a;
+        border: 2px solid #3f3f3f4a;
+        box-shadow: 3px 3px 8px #00000093;
+        border-radius: 10px;
     
         & .box_img {
-            border-radius: 10px;
+            width: 250px;
+            height: 100%;
+            & img{
+                width: 100%;
+                border-radius: 10px;
+            }
         }
+
         & p {
-            color: #f5f5f5d0;
+            color: #0000009f;
             font-size: 15px;
-            font-weight: 700;
-            margin: 5px 0px;
+            font-weight: 600;
+            width: 200px;
+            height: 100%;
+            margin: 5px auto;
             border-bottom: 2px solid #f5f5f5;
+            & span {
+                color: #000000d0;
+                font-size: 18px;
+                font-weight: 800;
+            }
         }
+    }
+    & p {
+        font-size: 16px;
+        font-weight: 700;
     }
 }

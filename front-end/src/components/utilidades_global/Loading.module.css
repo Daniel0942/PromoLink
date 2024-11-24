@@ -1,0 +1,8 @@
+.loading {
+    width: 150px;
+    position: absolute;
+    display: flex;
+    top: 50%; /* Posiciona verticalmente no meio da tela */
+    left: 50%; /* Posiciona horizontalmente no meio da tela */
+    transform: translate(-50%, -50%);
+}
