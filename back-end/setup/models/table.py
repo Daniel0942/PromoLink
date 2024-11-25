@@ -20,13 +20,27 @@ def CriarTabelas():
         password VARCHAR(50) NOT NULL
     )""")
     conectar.commit()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS favoritos (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+            username_id VARCHAR(100),
+            site VARCHAR(100),
+            produto TEXT,
+            preco DECIMAL(10, 2),
+            FOREIGN KEY (username_id) REFERENCES users(username)
+        )""")
+    conectar.commit()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS historico (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username_id VARCHAR(100) NOT NULL,
+    site TEXT NOT NULL,
+    data_e_hora DATETIME NOT NULL, 
+    FOREIGN KEY (username_id) REFERENCES users(username)
+    )""")
+    conectar.commit()
+
     cursor.close()
     conectar.close()
-
-def AdicionarValores():
-    con = Conexao()
-    cursor = con.cursor()
-    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s,%s)", ("Daniel", "danielufc131@gmail.com", "0942"))
-    con.commit()
-    cursor.close()
-    con.close()

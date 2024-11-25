@@ -5,7 +5,7 @@ import btn_fechar from "../../img/btn_fechar.svg"
 import icone_user from "../../img/icone_user.svg"
 import user_logout from "../../img/user_logout.svg"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function HeaderPrincipal({username}) {
     // Funções menu dinâmico
@@ -17,15 +17,22 @@ function HeaderPrincipal({username}) {
         setMenu(false)
     }
 
+    // função pra redirecionar para a página de historico e enviar o username
+    let navigate = useNavigate()
+    function redirecionarHistorico() {
+        navigate("/principal/historico", { state: {username }})
+    }
+
     return (
         <div className={style.header}>
-            <img src={Logo} alt="Logo em svg do figma" />
+            <img src={Logo} alt="Logo em svg do figma"/>
 
             <nav className={style.btns_menu}>
                 <ul>
                     <li>Sobre</li>
                     <li>Favoritos</li>
-                    <li>Histórico</li>
+                    <li onClick={redirecionarHistorico}>Histórico</li>
+                    
                 </ul>
             </nav>
 
@@ -42,7 +49,7 @@ function HeaderPrincipal({username}) {
                 </div>
 
                 <div className={style.btns_users}>
-                    {username == "Visitante" ?
+                    {username === "Visitante" ?
                         <Link to="/Registrar">
                             <img src={icone_user} alt="icone do user do figma"/>
                         </Link>

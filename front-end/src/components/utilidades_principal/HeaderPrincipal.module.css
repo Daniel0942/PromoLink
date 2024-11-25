@@ -5,6 +5,8 @@
     display: flex;
     justify-content: space-around;
     padding: 20px 0px;
+    /* O bootstrap usa border-box, que causa conflito com este header então usei o content-box, para evitar o conflito */
+    box-sizing: content-box; 
 
     & .btns_menu {
         & ul { 
@@ -18,11 +20,13 @@
                 border-radius: 10px;
                 margin: 0 10px;  
                 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+                cursor: pointer;
             } 
         } 
     }
     & .abrir_menu { 
         margin-top: 46px;
+        cursor: pointer;
     }
 
     & .menu {

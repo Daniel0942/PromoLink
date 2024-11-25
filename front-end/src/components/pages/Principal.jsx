@@ -11,7 +11,6 @@ function Principal() {
     let [site, setSite] = useState("")
     let [gerenciador, setGerenciador] = useState([])
     let [carregamento, setCarregamento] = useState(false)
-
     
     function EnviarSite(e) {
         e.preventDefault()
@@ -19,6 +18,7 @@ function Principal() {
         axios.post(`http://127.0.0.1:5000/produtos/${site}`)
         .then(()=> {
             BuscarProdutos()
+            EnviarSiteHistorico()
         })
         .catch(error => {console.error(`Ocorreu o erro: ${error}`)})
     }
@@ -33,6 +33,12 @@ function Principal() {
             console.error(`Ocorreu o erro na caixa de produtos: ${err}`)
         }
         finally {setCarregamento(false)}
+    }
+
+    // enviar o site pra o back, pra colocar no historico
+    function EnviarSiteHistorico() {
+        axios.post(`http://127.0.0.1:5000/historico/${site}`)
+        .catch(erro => {console.error(`Ocorreu ao enviar o siteHistorico: ${erro}`)})
     }
 
     return (
