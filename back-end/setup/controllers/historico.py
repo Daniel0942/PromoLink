@@ -3,21 +3,23 @@ from setup import app
 from flask import jsonify, request, session
 from datetime import datetime
 
-@app.route("/historico")
-def historico_index():
+@app.route("/historico/<string:username_id>", methods=["GET"])
+def historico_index(username_id):
     conectar = Conexao()
     cursor = conectar.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM historico")
+    cursor.execute("SELECT * FROM historico where username_id = %s", (username_id,))
     historico = cursor.fetchall()
     cursor.close()
     conectar.close()
     return jsonify(historico)
 
 
-@app.route("/historico/<string:site>", methods=["POST"])
-def inserir_produtos_historico(site):
-    username_id = "Daniel" # session.get("username")
-    site = site
+@app.route("/historico", methods=["POST"])
+def inserir_produtos_historico():
+    data = request.get_json()
+    
+    username_id = data.get("username_id")
+    site = data.get("site")
     data_e_hora = datetime.now()
     try:
         conectar = Conexao()

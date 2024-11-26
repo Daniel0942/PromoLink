@@ -1,7 +1,8 @@
 import style from "./CaixaProdutos.module.css"
 import Loading from "../utilidades_global/Loading"
+import Button from "../utilidades_global/Button"
 
-function CaixaProdutos({gerenciador, carregamento}) {
+function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAtivo}) {
     return (
         <>
             {carregamento && <Loading/>}
@@ -10,14 +11,24 @@ function CaixaProdutos({gerenciador, carregamento}) {
                     gerenciador.map((produto, index)=> (
                         <div className={style.box_produtos} key={index}>
                             <div className={style.box_img}>
-                                <img src={produto.Url} alt="imagem do produto"/>
+                                <img src={produto.url} alt="imagem do produto"/>
                             </div>
-                            <p>{produto.Produto}</p>
-                            <p><span>{produto.Preço}</span></p>
+                            <p>{produto.produto}</p>
+                            <p><span>{produto.preco}</span></p>
+
+                            <Button 
+                            txt={favoritoAtivo ? "Remover" : "Adicionar aos favoritos"}
+                            tipo="button"
+                            danger={favoritoAtivo ? "danger" : ""}
+                            onClick={() => {
+                                adicionarFavorito(produto.produto, produto.preco, produto.url)
+                            }}
+                            />
                         </div>
                         ))
                     ) : (
-                        <p>Nenhum site selecionado!</p>
+                        <p>{favoritoAtivo ? "Nenhum produto salvo nos favoritos" 
+                            : "Nenhum site selecionado!"}</p>
                     )}
                 </div>
             </>

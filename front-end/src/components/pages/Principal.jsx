@@ -37,10 +37,26 @@ function Principal() {
 
     // enviar o site pra o back, pra colocar no historico
     function EnviarSiteHistorico() {
-        axios.post(`http://127.0.0.1:5000/historico/${site}`)
+        axios.post(`http://127.0.0.1:5000/historico`, {
+            username_id: username,
+            site: site
+        })
         .catch(erro => {console.error(`Ocorreu ao enviar o siteHistorico: ${erro}`)})
     }
 
+    // enviar produto para o back-end adicionar ele à tabela favoritos
+    function adicionarFavorito(produto, preco, url) {
+        axios.post("http://127.0.0.1:5000/favoritos", {
+            username_id: username,
+            site: site,
+            produto: produto,
+            preco: preco,
+            url: url
+        })
+        .catch((err) => {
+            console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
+        })
+    }
     return (
         <>
             <HeaderPrincipal username={username}/>
@@ -48,6 +64,7 @@ function Principal() {
             <CaixaProdutos 
             gerenciador={gerenciador} 
             carregamento={carregamento}
+            adicionarFavorito={adicionarFavorito}
             />
         </>
     )

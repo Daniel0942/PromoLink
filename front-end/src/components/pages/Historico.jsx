@@ -13,14 +13,14 @@ function Historico() {
     useEffect(()=>{
         let buscarHistorico = async ()=> {
             try {
-                let response = await axios.get("http://127.0.0.1:5000/historico")
+                let response = await axios.get(`http://127.0.0.1:5000/historico/${username}`)
                 setGerenciadorHistorico(response.data)
             } catch(err) {
                 console.error(`Ocorreu o erro ao puxar o historico: ${err}`)
             }
         }
         buscarHistorico()
-    }, [])
+    }, [username])
 
     return (
         <>

@@ -17,20 +17,30 @@ function HeaderPrincipal({username}) {
         setMenu(false)
     }
 
-    // função pra redirecionar para a página de historico e enviar o username
     let navigate = useNavigate()
+    // função pra redirecionar para a página de historico e enviar o username
     function redirecionarHistorico() {
-        navigate("/principal/historico", { state: {username }})
+        navigate("/principal/historico", { state: {username} })
+    }
+    
+    // função pra redirecionar para a página de favoritos e enviar o username
+    function redirecionarFavoritos() {
+        navigate("/principal/favoritos", { state: {username} })
+    }
+
+    // função pra redirecionar para a página de principal e enviar o username
+    function redirecionarPrincipal() {
+        navigate("/principal", { state: {username} })
     }
 
     return (
         <div className={style.header}>
-            <img src={Logo} alt="Logo em svg do figma"/>
+            <img src={Logo} alt="Logo em svg do figma" onClick={redirecionarPrincipal}/>
 
             <nav className={style.btns_menu}>
                 <ul>
                     <li>Sobre</li>
-                    <li>Favoritos</li>
+                    <li onClick={redirecionarFavoritos}>Favoritos</li>
                     <li onClick={redirecionarHistorico}>Histórico</li>
                     
                 </ul>

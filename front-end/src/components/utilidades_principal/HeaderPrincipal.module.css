@@ -8,6 +8,9 @@
     /* O bootstrap usa border-box, que causa conflito com este header então usei o content-box, para evitar o conflito */
     box-sizing: content-box; 
 
+    & img { 
+        cursor: pointer;
+    }
     & .btns_menu {
         & ul { 
             margin-top: 46px;

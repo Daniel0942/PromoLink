@@ -1,5 +1,5 @@
 import style from "./MiniForm.module.css"
-import Button from "../utilidades_login/Button"
+import Button from "../utilidades_global/Button"
 
 function MiniForm({setSite, função}) {
     return (

@@ -27,7 +27,7 @@ class ProdutosGet():
 
         # Monta os dados
         for url, produto, preco in zip(urls_imgs, produtos, precos_produtos):
-            gerenciador_magazine.append({"Url": url, "Produto": produto, "Preço": preco[3:]})
+            gerenciador_magazine.append({"url": url, "produto": produto, "preco": preco[3:]})
 
         self.navegador.quit()
         return gerenciador_magazine
@@ -50,7 +50,7 @@ class ProdutosGet():
         
         if len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
             for url, produto, preco in zip(urls_imgs, produtos, precos):
-                gerenciador_casasBahia.append({"Url": url, "Produto": produto, "Preço": preco})
+                gerenciador_casasBahia.append({"url": url, "produto": produto, "preco": preco})
         else:
             print("Erro: O número de produtos e urls não corresponde ao número de preços.")
 
@@ -72,7 +72,7 @@ class ProdutosGet():
 
         if len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
             for url, produto, preco in zip(urls_imgs, produtos, precos):
-                gerenciador_kabum.append({"Url": url, "Produto": produto, "Preço": preco})
+                gerenciador_kabum.append({"url": url, "produto": produto, "preco": preco})
         else:
             print("Erro: O número de produtos e urls não corresponde ao número de preços.")
         return gerenciador_kabum

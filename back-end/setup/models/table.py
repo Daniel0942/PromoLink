@@ -24,10 +24,11 @@ def CriarTabelas():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS favoritos (
         id INT PRIMARY KEY AUTO_INCREMENT,
-            username_id VARCHAR(100),
-            site VARCHAR(100),
-            produto TEXT,
-            preco DECIMAL(10, 2),
+            username_id VARCHAR(100) NOT NULL,
+            url TEXT NOT NULL,
+            site VARCHAR(100) NOT NULL,
+            produto TEXT NOT NULL,
+            preco DECIMAL(10, 2) NOT NULL,
             FOREIGN KEY (username_id) REFERENCES users(username)
         )""")
     conectar.commit()

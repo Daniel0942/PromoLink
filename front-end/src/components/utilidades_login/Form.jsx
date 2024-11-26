@@ -2,7 +2,7 @@ import style from  "./Form.module.css"
 import Email from "../../img/email.svg"
 import lock from "../../img/lock.svg"
 import user from "../../img/user.svg"
-import Button from "./Button.jsx"
+import Button from "../utilidades_global/Button.jsx"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
@@ -101,7 +101,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 </div>
 
                 <p>{txt_P1} <Link to={rota_link}>{txt_P2}</Link></p>
-                <Button txt={txtButton}/>
+                <Button txt={txtButton} tipo="submit"/>
             </form>
 
             {msgVisible && <Message txt={txtMessage} estilo={msgStyle}/>}

@@ -27,13 +27,15 @@ function Table({gerenciadorHistorico, username}) {
                 {gerenciadorHistorico ? (gerenciadorHistorico.map((item, index) => (
                     <tbody key={index}>
                         <tr>
-                            <th scope="row">{item.id}</th>
+                            <th scope="row">{++index}</th>
                             <td>{item.site}</td>
                             <td>{item.data_e_hora}</td>
                         </tr>
                     </tbody>
                     ))
-                ) : (alert("Sem historico"))}
+                ) : (
+                    console.log("Sem historico")
+                )}
             </table>
         </div>
         </>
