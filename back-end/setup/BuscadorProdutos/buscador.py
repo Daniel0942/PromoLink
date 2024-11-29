@@ -12,6 +12,8 @@ class ProdutosGet():
         options.add_argument("--no-sandbox")  # Necessário em ambientes de nuvem
         options.add_argument("--disable-dev-shm-usage")  # Previne problemas de memória
         options.add_argument("--disable-gpu")  # Opcional, dependendo do ambiente
+        # Adicione o caminho do binário do Chrome explicitamente
+        options.binary_location = "/usr/bin/google-chrome-stable"  # Caminho típico do Chrome em ambientes Linux
         servico = Service("/opt/render/project/src/chromedriver")
         self.navegador = webdriver.Chrome(service=servico, options=options)
 
