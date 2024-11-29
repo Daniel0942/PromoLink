@@ -1,13 +1,19 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from time import sleep
 
 class ProdutosGet():
     def __init__(self):
+        options = Options()
+        options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+        options.add_argument("--no-sandbox")  # Necessário em ambientes de nuvem
+        options.add_argument("--disable-dev-shm-usage")  # Previne problemas de memória
+        options.add_argument("--disable-gpu")  # Opcional, dependendo do ambiente
         servico = Service(ChromeDriverManager().install())
-        self.navegador = webdriver.Chrome(service=servico)
+        self.navegador = webdriver.Chrome(service=servico, options=options)
 
     def magazine(self):
         self.navegador.get("https://www.magazineluiza.com.br/selecao/ofertasdodia/")
