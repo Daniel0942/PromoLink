@@ -1,18 +1,15 @@
-#!/bin/bash
-# Atualiza o sistema e instala o Chrome
+# Baixar e instalar o Chrome
 apt-get update
 apt-get install -y wget unzip
-
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 dpkg -i google-chrome-stable_current_amd64.deb
 apt-get -fy install
 
-# Instala o ChromeDriver
-CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
-wget https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-mv chromedriver /usr/local/bin/chromedriver
-chmod +x /usr/local/bin/chromedriver
+# Baixar e instalar o chromedriver em /tmp
+wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip -P /tmp
+unzip /tmp/chromedriver_linux64.zip -d /tmp
+chmod +x /tmp/chromedriver
+mv /tmp/chromedriver /usr/local/bin/chromedriver
 
-# Executa a aplicação (ajuste para o seu comando)
-python main.py
+# Verificar se o chromedriver foi movido corretamente
+ls -l /usr/local/bin/chromedriver
