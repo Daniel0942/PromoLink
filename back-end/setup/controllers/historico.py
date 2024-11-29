@@ -26,11 +26,11 @@ def inserir_produtos_historico():
         cursor = conectar.cursor()
         cursor.execute("INSERT INTO historico (username_id, site, data_e_hora) VALUES (%s, %s, %s)", (username_id, site, data_e_hora))
         conectar.commit()
-        return jsonify({"resposta": "deu certo"}), 200
+        return jsonify({"resposta": "inserido no historico com sucesso"}), 200
 
     except Exception as e: 
         print(f"Ocorreu o erro inserir historico no banco de dados: {str(e)}")
-        return jsonify({"resposta": "deu errado"}), 500
+        return jsonify({"resposta": "deu errado ao inserir no historico"}), 500
     finally: 
         cursor.close()
         conectar.close()

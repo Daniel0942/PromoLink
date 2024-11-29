@@ -13,17 +13,21 @@ def favoritos_index(username_id):
     return jsonify(favoritos)
 
 @app.route("/favoritos", methods=["POST"])
-def selecionar_favorito():
+def adicionar_favorito():
     data = request.get_json()
 
     username_id = data.get("username_id")
     site = data.get("site")
     produto = data.get("produto")
-    preco_com_sifrão = data.get("preco")
-    # Remover o R$ do preço, e trocar a virgula pelo ponto
-    preco = preco_com_sifrão[3:].replace(",", ".") 
     url = data.get("url")
-    
+
+    # O preco vem com "R$", e "," e pode ter valores com mais de um ponto.
+    # Remover "R$", substituir "," por "." e corrigir separadores de milhar.
+    preco_sifrão = data.get("preco")
+    preco = preco_sifrão[3:].replace(",", ".")  # Remove "R$" e troca "," por "."
+    if preco.count(".") > 1:  # Se houver mais de um ponto, remova os extras.
+        preco = preco.replace(".", "", preco.count(".") - 1)
+
     try:
         conectar = Conexao()
         cursor = conectar.cursor()
@@ -32,8 +36,22 @@ def selecionar_favorito():
         return jsonify({"Success": "Produto inserido com sucesso!"}), 200
     except Exception as e: 
         print(f"Ocorreu o erro ao inserir o produto aos favoritos: {str(e)}")
-        return jsonify({"ERROR": "Falha ao inserir o produto!"}), 500
+        return jsonify({"Error": "Falha ao inserir o produto!"}), 500
     finally:
         cursor.close()
         conectar.close()
     
+@app.route("/favoritos/<int:id>", methods=["POST"])
+def remover_favorito(id):
+    conectar = Conexao()
+    try:
+        cursor = conectar.cursor()
+        cursor.execute("DELETE FROM favoritos WHERE id = %s", (id,))
+        conectar.commit()
+        return jsonify({"Success": "Produto deletado com sucesso"})
+    except Exception as e:
+        print(f"Ocorreu o erro ao deletar favorito: {str(e)}")
+        return jsonify({"Error": "Ocorreu o erro ao deletar produto!"})
+    finally:
+        cursor.close()
+        conectar.close()

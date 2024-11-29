@@ -2,6 +2,7 @@ import { useState } from "react"
 import CaixaProdutos from "../utilidades_principal/CaixaProdutos"
 import HeaderPrincipal from "../utilidades_principal/HeaderPrincipal"
 import MiniForm from "../utilidades_principal/MiniForm"
+import Message from "../utilidades_global/Message"
 import { useLocation } from "react-router-dom"
 import axios from "axios"
 
@@ -12,6 +13,20 @@ function Principal() {
     let [gerenciador, setGerenciador] = useState([])
     let [carregamento, setCarregamento] = useState(false)
     
+    // função para exibição de mensagens dinâmicas
+    let [message, setMessage] = useState(false)
+    let [msgTXT, setmsgTXT] = useState()
+    let [estilo, setEstilo] = useState()
+    function showMessage(txt, style) {
+        setMessage(true)
+        setmsgTXT(txt)
+        setEstilo(style)
+        setTimeout(() => {
+            setMessage(false)
+        }, 3000)
+    }
+
+    // função para enviar o site para o back-end 
     function EnviarSite(e) {
         e.preventDefault()
         setCarregamento(true)
@@ -20,22 +35,27 @@ function Principal() {
             BuscarProdutos()
             EnviarSiteHistorico()
         })
-        .catch(error => {console.error(`Ocorreu o erro: ${error}`)})
+        .catch(error => {
+            console.error(`Ocorreu o erro: ${error}`)
+        })
     }
 
-    // Função para buscar os produtos da API
+    // Função para buscar os produtos do back-end
     async function BuscarProdutos() {
         try {
             let response = await axios.get("http://127.0.0.1:5000/produtos")
             setGerenciador(response.data) // Atualiza com os produtos
         } 
         catch (err) {
-            console.error(`Ocorreu o erro na caixa de produtos: ${err}`)
+            console.error(`Erro ao buscar produtos: ${err}`);
+            // Verifica se tem resposta, se não tiver há uma falha na conexão.
+            let mensagemErro = err.response.data.Error || "Falha na conexão com o servidor!"
+            showMessage(mensagemErro, "danger")
         }
         finally {setCarregamento(false)}
     }
 
-    // enviar o site pra o back, pra colocar no historico
+    // enviar o site para o back-end colocar no historico
     function EnviarSiteHistorico() {
         axios.post(`http://127.0.0.1:5000/historico`, {
             username_id: username,
@@ -53,14 +73,22 @@ function Principal() {
             preco: preco,
             url: url
         })
+        .then((response) => {
+            setMessage(true)
+            let msg = response.data.Success || "Falha na conexão com o servidor"
+            showMessage(msg, "sucess")
+        })
         .catch((err) => {
             console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
+            let msg = err.response.data.Error || "Falha na conexão com o servidor"
+            showMessage(msg, "danger")
         })
     }
     return (
         <>
             <HeaderPrincipal username={username}/>
             <MiniForm setSite={setSite} função={EnviarSite}/>
+            {message && <Message txt={msgTXT} estilo={estilo}/>}
             <CaixaProdutos 
             gerenciador={gerenciador} 
             carregamento={carregamento}

@@ -2,7 +2,7 @@ import style from "./CaixaProdutos.module.css"
 import Loading from "../utilidades_global/Loading"
 import Button from "../utilidades_global/Button"
 
-function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAtivo}) {
+function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAtivo, removerFavorito}) {
     return (
         <>
             {carregamento && <Loading/>}
@@ -21,7 +21,10 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                             tipo="button"
                             danger={favoritoAtivo ? "danger" : ""}
                             onClick={() => {
-                                adicionarFavorito(produto.produto, produto.preco, produto.url)
+                                favoritoAtivo ? (
+                                    (removerFavorito(produto.id))
+                                )
+                                : (adicionarFavorito(produto.produto, produto.preco, produto.url))
                             }}
                             />
                         </div>
