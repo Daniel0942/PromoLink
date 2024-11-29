@@ -30,7 +30,7 @@ function Principal() {
     function EnviarSite(e) {
         e.preventDefault()
         setCarregamento(true)
-        axios.post(`http://127.0.0.1:5000/produtos/${site}`)
+        axios.post(`https://promolink.onrender.com/produtos/${site}`)
         .then(()=> {
             BuscarProdutos()
             EnviarSiteHistorico()
@@ -43,7 +43,7 @@ function Principal() {
     // Função para buscar os produtos do back-end
     async function BuscarProdutos() {
         try {
-            let response = await axios.get("http://127.0.0.1:5000/produtos")
+            let response = await axios.get("https://promolink.onrender.com/produtos")
             setGerenciador(response.data) // Atualiza com os produtos
         } 
         catch (err) {
@@ -57,7 +57,7 @@ function Principal() {
 
     // enviar o site para o back-end colocar no historico
     function EnviarSiteHistorico() {
-        axios.post(`http://127.0.0.1:5000/historico`, {
+        axios.post(`https://promolink.onrender.com/historico`, {
             username_id: username,
             site: site
         })
@@ -66,7 +66,7 @@ function Principal() {
 
     // enviar produto para o back-end adicionar ele à tabela favoritos
     function adicionarFavorito(produto, preco, url) {
-        axios.post("http://127.0.0.1:5000/favoritos", {
+        axios.post("https://promolink.onrender.com/favoritos", {
             username_id: username,
             site: site,
             produto: produto,

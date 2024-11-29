@@ -6,10 +6,11 @@ load_dotenv()
 
 def Conexao():
     db = mysql.connector.connect(
-        host=os.getenv("host"),
-        user=os.getenv("user"),
-        password=os.getenv("password"),
-        database=os.getenv("database")
+        host = os.getenv("host"),
+        user = os.getenv("user"),
+        password = os.getenv("password"),
+        database = os.getenv("database"),
+        port = int(os.getenv("port"))
     )
     return db
 

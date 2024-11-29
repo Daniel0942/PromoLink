@@ -26,7 +26,7 @@ function Favoritos() {
     useEffect(()=>{
         async function BuscarFavoritos() {
             try {
-                let response = await axios.get(`http://127.0.0.1:5000/favoritos/${username}`)
+                let response = await axios.get(`https://promolink.onrender.com/favoritos/${username}`)
                 setGerenciadorFavoritos(response.data)
             } 
             catch (err) {console.error(`Deu o erro: ${err}`)}
@@ -37,7 +37,7 @@ function Favoritos() {
 
     // função para deletar o favorito
     function removerFavorito(id) {
-        axios.post(`http://127.0.0.1:5000/favoritos/${id}`)
+        axios.post(`https://promolink.onrender.com/favoritos/${id}`)
         .then(response => {
             // Remover o item localmente da lista de favoritos
             setGerenciadorFavoritos((prevState) =>
