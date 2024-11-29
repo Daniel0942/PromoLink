@@ -12,7 +12,7 @@ class ProdutosGet():
         options.add_argument("--no-sandbox")  # Necessário em ambientes de nuvem
         options.add_argument("--disable-dev-shm-usage")  # Previne problemas de memória
         options.add_argument("--disable-gpu")  # Opcional, dependendo do ambiente
-        servico = Service(ChromeDriverManager().install())
+        servico = Service("/opt/render/project/src/chromedriver")
         self.navegador = webdriver.Chrome(service=servico, options=options)
 
     def magazine(self):
