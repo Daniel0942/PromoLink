@@ -25,7 +25,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
         setMsgVisible(true)
         setTimeout(()=> {setMsgVisible(false)}, 3000)
     }
-
+    
     function Logar(e) {
         e.preventDefault()
         axios.get("https://promolink.onrender.com/users")

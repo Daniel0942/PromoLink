@@ -9,7 +9,7 @@ def produtos_index():
     if len(dados_produtos) > 0:
         return jsonify(dados_produtos), 200
     else:
-        return jsonify({"Error": "Ocorreu o erro ao buscar produtos!"}), 500
+        return jsonify({"Error": "Sem produtos!"}), 500
 
 @app.route("/produtos/<string:site>", methods=["POST"])
 def receber_requisisao(site):
