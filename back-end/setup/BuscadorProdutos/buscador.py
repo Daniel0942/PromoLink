@@ -44,7 +44,7 @@ class ProdutosGet():
         imgs = [div.find_element(By.TAG_NAME, "img") for div in produtos_img]
         urls_imgs = [img.get_attribute("src") for img in imgs if img.get_attribute("src")]
 
-        produtos = [produto.text for produto in produtos_titulo if produto.get_attribute("aria-hidden") == "true" and "estrelas" not in produto.text and len(produto.text) > 20]
+        produtos = [produto.text for produto in produtos_titulo if produto.get_attribute("aria-hidden") == "true" and "estrelas" not in produto.text and len(produto.text) > 20 and "com juros" not in produto.text]
 
         precos = [preco.text for preco in produtos_precos if preco.text and preco.get_attribute("class") == "product-card__highlight-price" and preco.get_attribute("aria-hidden") == "true"]
         
@@ -52,7 +52,7 @@ class ProdutosGet():
             for url, produto, preco in zip(urls_imgs, produtos, precos):
                 gerenciador_casasBahia.append({"url": url, "produto": produto, "preco": preco})
         else:
-            print("Erro: O número de produtos e urls não corresponde ao número de preços.")
+            print(f"Erro: O número de produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
 
         self.navegador.quit()
         return gerenciador_casasBahia
