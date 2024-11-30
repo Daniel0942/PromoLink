@@ -30,7 +30,7 @@ function Principal() {
     function EnviarSite(e) {
         e.preventDefault()
         setCarregamento(true)
-        axios.post(`https://promolink.onrender.com/produtos/${site}`)
+        axios.post(`http://127.0.0.1:5000/produtos/${site}`)
         .then(()=> {
             BuscarProdutos()
             EnviarSiteHistorico()
@@ -39,11 +39,11 @@ function Principal() {
             console.error(`Ocorreu o erro: ${error}`)
         })
     }
-
+    // https://promolink.onrender.com
     // Função para buscar os produtos do back-end
     async function BuscarProdutos() {
         try {
-            let response = await axios.get("https://promolink.onrender.com/produtos")
+            let response = await axios.get("http://127.0.0.1:5000/produtos")
             setGerenciador(response.data) // Atualiza com os produtos
         } 
         catch (err) {

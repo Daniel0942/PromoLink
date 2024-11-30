@@ -12,10 +12,11 @@ RUN apt-get update && apt-get install -y \
     libappindicator3-1 \
     libgbm-dev \
     chromium \
+    chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
-# Verificar se o binário do Chromium está no PATH.
-RUN which chromium
+# Verificar se o binário do Chromium e do ChromeDriver estão no PATH.
+RUN which chromium && which chromedriver
 
 # Configurar diretório de trabalho
 WORKDIR /app
@@ -24,14 +25,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Adicionar caminho do ChromeDriver no PATH
+ENV PATH="/usr/bin:${PATH}"
+
 # Expor porta para o Flask
 EXPOSE 5000
-
-# Caminho do chromium
-ENV PATH="/path/to/chromedriver:${PATH}"
-
-# instalando chromedriver no container do docker
-RUN apt-get update && apt-get install -y chromium-driver
 
 # Comando final para rodar o app
 COPY . .
