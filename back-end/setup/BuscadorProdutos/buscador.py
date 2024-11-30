@@ -11,7 +11,7 @@ class ProdutosGet():
         options.add_argument("--headless")  # Modo headless (sem interface gráfica)
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.binary_location = "/usr/bin/google-chrome-stable"  # Caminho para o binário do Chrome no container
+        options.binary_location = "/usr/bin/chromium"
 
         servico = Service(ChromeDriverManager().install())
         self.navegador = webdriver.Chrome(service=servico, options=options)

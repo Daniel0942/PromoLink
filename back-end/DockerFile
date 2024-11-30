@@ -11,15 +11,11 @@ RUN apt-get update && apt-get install -y \
     fonts-liberation \
     libappindicator3-1 \
     libgbm-dev \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar o Google Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install \
-    && rm google-chrome-stable_current_amd64.deb
-
-# Verificar se o binário do Chrome está no PATH.
-RUN which google-chrome-stable
+# Verificar se o binário do Chromium está no PATH.
+RUN which chromium
 
 # Configurar diretório de trabalho
 WORKDIR /app
