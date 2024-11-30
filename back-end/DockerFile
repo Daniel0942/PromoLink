@@ -18,7 +18,7 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     && dpkg -i google-chrome-stable_current_amd64.deb || apt-get -fy install \
     && rm google-chrome-stable_current_amd64.deb
 
-    # Verificar se o binário do Chrome está no PATH.
+# Verificar se o binário do Chrome está no PATH.
 RUN which google-chrome-stable
 
 # Configurar diretório de trabalho
