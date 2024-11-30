@@ -28,7 +28,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     
     function Logar(e) {
         e.preventDefault()
-        axios.get("https://promolink.onrender.com/users")
+        axios.get("http://127.0.0.1:5000/users")
         .then(response => {
             let dados = response.data
             if (dados) { 
@@ -54,7 +54,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     function Registrar(e) { 
         e.preventDefault()
         if (username.length > 0 && email.length > 0 && password.length > 0) { 
-            axios.post("https://promolink.onrender.com/users", {
+            axios.post("http://127.0.0.1:5000/users", {
                 username: username,
                 email: email,
                 password: password
