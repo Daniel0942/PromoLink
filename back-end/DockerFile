@@ -27,6 +27,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expor porta para o Flask
 EXPOSE 5000
 
+# instalando chromedriver no container do docker
+RUN apt-get update && apt-get install -y chromium-driver
+
+# Caminho do chromium
+ENV PATH="/path/to/chromedriver:${PATH}"
 # Comando final para rodar o app
 COPY . .
 CMD ["python", "run.py"]

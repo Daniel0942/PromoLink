@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from time import sleep
@@ -13,7 +12,7 @@ class ProdutosGet():
         options.add_argument("--disable-dev-shm-usage")
         options.binary_location = "/usr/bin/chromium"
 
-        servico = Service(ChromeDriverManager().install())
+        servico = Service("/usr/bin/chromedriver")
         self.navegador = webdriver.Chrome(service=servico, options=options)
 
     def magazine(self):
