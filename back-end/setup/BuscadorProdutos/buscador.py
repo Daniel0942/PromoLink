@@ -9,16 +9,10 @@ class ProdutosGet():
     def __init__(self):
         options = Options()
         options.add_argument("--headless")  # Modo headless (sem interface gráfica)
-        options.add_argument("--no-sandbox")  # Necessário em ambientes de nuvem
-        options.add_argument("--disable-dev-shm-usage")  # Previne problemas de memória
-        options.add_argument("--disable-dev-shm-usage")  # Previne problemas de memória compartilhada
-        options.add_argument("--disable-extensions")  # Desativa extensões do navegador
-        options.add_argument("--remote-debugging-port=9222")  # Habilita a depuração remota
-        options.add_argument("--disable-gpu")  # Opcional, dependendo do ambiente
-        # Adicione o caminho do binário do Chrome explicitamente
-
-        options.binary_location = "/usr/bin/google-chrome-stable"  # Caminho típico do Chrome em ambientes Linux
-        servico = Service("/usr/local/bin/chromedriver")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        
+        servico = Service(ChromeDriverManager().install())
         self.navegador = webdriver.Chrome(service=servico, options=options)
 
     def magazine(self):
