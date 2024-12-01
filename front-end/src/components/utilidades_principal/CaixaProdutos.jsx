@@ -1,6 +1,7 @@
 import style from "./CaixaProdutos.module.css"
 import Loading from "../utilidades_global/Loading"
 import Button from "../utilidades_global/Button"
+import { FiExternalLink } from "react-icons/fi"
 
 function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAtivo, removerFavorito}) {
     return (
@@ -15,7 +16,10 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                             </div>
                             <p>{produto.produto}</p>
                             <p><span>{produto.preco}</span></p>
-
+                            <a href={produto.link}>
+                                <FiExternalLink/>
+                                Visitar o site
+                            </a>
                             <Button 
                             txt={favoritoAtivo ? "Remover" : "Adicionar aos favoritos"}
                             tipo="button"

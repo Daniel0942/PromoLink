@@ -66,6 +66,7 @@ function Principal() {
 
     // enviar produto para o back-end adicionar ele à tabela favoritos
     function adicionarFavorito(produto, preco, url) {
+        setCarregamento(true)
         axios.post("http://127.0.0.1:5000/favoritos", {
             username_id: username,
             site: site,
@@ -74,11 +75,13 @@ function Principal() {
             url: url
         })
         .then((response) => {
+            setCarregamento(false)
             setMessage(true)
             let msg = response.data.Success || "Falha na conexão com o servidor"
             showMessage(msg, "sucess")
         })
         .catch((err) => {
+            setCarregamento(false)
             console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
             let msg = err.response.data.Error || "Falha na conexão com o servidor"
             showMessage(msg, "danger")

@@ -75,6 +75,10 @@ class ProdutosGet():
         self.navegador.get("https://www.kabum.com.br/ofertas/ofertadodia?pagina=1&limite=20")
         gerenciador_kabum = []
 
+        # Pegar o link dos produtos atráves dos artigos
+        artigos = self.navegador.find_elements(By.TAG_NAME, "article")
+        links = [artigo.find_element(By.TAG_NAME, "a").get_attribute("href") for artigo in artigos]
+
         produtos_img = self.navegador.find_elements(By.TAG_NAME, "img")
         produtos_span = self.navegador.find_elements(By.TAG_NAME, 'span')
 
@@ -84,9 +88,9 @@ class ProdutosGet():
 
         precos = [preco.text for preco in produtos_span if preco.get_attribute("class") == "sc-57f0fd6e-2 hjJfoh priceCard"]
 
-        if len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
-            for url, produto, preco in zip(urls_imgs, produtos, precos):
-                gerenciador_kabum.append({"url": url, "produto": produto, "preco": preco})
+        if len(links) == len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
+            for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
+                gerenciador_kabum.append({"link": link, "url": url, "produto": produto, "preco": preco})
         else:
             print("Erro: O número de produtos e urls não corresponde ao número de preços.")
         return gerenciador_kabum

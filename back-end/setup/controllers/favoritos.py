@@ -1,6 +1,7 @@
 from setup import app
 from flask import request, jsonify
 from setup.models.table import Conexao
+import mysql.connector.errors
 
 @app.route("/favoritos/<string:username_id>", methods=["GET"])
 def favoritos_index(username_id):
@@ -34,6 +35,10 @@ def adicionar_favorito():
         cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco) VALUES (%s, %s, %s, %s, %s)", (username_id, url, site, produto, preco))
         conectar.commit()
         return jsonify({"Success": "Produto inserido com sucesso!"}), 200
+    except mysql.connector.errors.IntegrityError as erro: 
+        if erro.errno == 1452:
+            print(f"[ERROR], A chave estrangeira username_id na tabela favoritos não está conseguindo referenciar uma entrada válida na tabela users, provalvelmente o usuário não está logado!")
+            return jsonify({"Error": "Usuário não está logado!"}), 500
     except Exception as e: 
         print(f"Ocorreu o erro ao inserir o produto aos favoritos: {str(e)}")
         return jsonify({"Error": "Falha ao inserir o produto!"}), 500
