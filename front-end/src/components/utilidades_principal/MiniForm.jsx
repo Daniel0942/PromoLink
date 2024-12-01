@@ -5,13 +5,13 @@ function MiniForm({setSite, função}) {
     return (
         <form action="" className={style.form} onSubmit={função}>
             <label>Selecione o site</label>
-            <input type="text" name="site" list="sites_disponiveis" placeholder="Escolha uma opção" onChange={(e)=> setSite(e.target.value)}/>
-            
-            <datalist id="sites_disponiveis">
-                <option value="Kabum"></option>
-                <option value="Casas Bahia"></option>
-                <option value="Magazine Luiza"></option>
-            </datalist>
+
+            <select name="site" onClick={(e)=> setSite(e.target.value)}>
+                <option value="" disabled selected>Escolha uma das opções</option>
+                <option value="Kabum">Kabum"</option>
+                <option value="Casas Bahia">Casas Bahia</option>
+                <option value="Magazine Luiza">Magazine Luiza</option>
+            </select>
 
             <Button txt="Selecionar"/>
         </form>

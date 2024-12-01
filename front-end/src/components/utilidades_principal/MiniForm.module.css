@@ -1,6 +1,6 @@
 .form {
     display: flex;
-    width: 157px;
+    width: 225px;
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
@@ -13,7 +13,7 @@
         font-weight: 700;
     }
 
-    & input {
+    & select {
         width: 100%;
         padding: 10px;
         border-radius: 5px;
@@ -21,6 +21,10 @@
         font-size: 14px;
         font-weight: 600;
         color: #fff;
+        & option {
+            font-size: 14px;
+            font-weight: 600;
+        }
     }
     
     & button { 
