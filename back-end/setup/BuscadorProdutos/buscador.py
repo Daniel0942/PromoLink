@@ -100,14 +100,3 @@ class ProdutosGet():
         else:
             print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
         return gerenciador_kabum
-
-
-instancia = ProdutosGet()
-gerenciador = instancia.casasBahia()
-
-for c in gerenciador:
-    #print(c)
-    print(f"O link é: {c["link"]}")
-    print(f"A url é: {c["url"]}")
-    print(f'O produto é: {c["produto"]}')
-    print(f'O preço é: {c["preco"]}\n')
