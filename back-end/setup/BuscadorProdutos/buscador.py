@@ -27,11 +27,14 @@ class ProdutosGet():
         self.navegador.get("https://www.magazineluiza.com.br/selecao/ofertasdodia/")
 
         sleep(2)
+        produtos_links = self.navegador.find_elements(By.TAG_NAME, "a")
         produtos_img = self.navegador.find_elements(By.CLASS_NAME, 'sc-dcjTxL')
         produtos_titulo = self.navegador.find_elements(By.TAG_NAME, 'h2')
         precos = self.navegador.find_elements(By.TAG_NAME, 'p')
         gerenciador_magazine = []
 
+        # Pegar links dos produtos
+        links = [link.get_attribute("href") for link in produtos_links if link.get_attribute("data-testid") == "product-card-container"]
         # Pegar atributo elemento img do elemento div
         imgs = [div.find_element(By.TAG_NAME, "img") for div in produtos_img]
         # Extrair urls das tags imgs
@@ -40,21 +43,24 @@ class ProdutosGet():
         precos_produtos = [preco.text for preco in precos if preco.get_attribute("data-testid") == "price-value" and preco.get_attribute("color") == "#404040"]
 
         # Monta os dados
-        for url, produto, preco in zip(urls_imgs, produtos, precos_produtos):
-            gerenciador_magazine.append({"url": url, "produto": produto, "preco": preco[3:]})
+        for link, url, produto, preco in zip(links, urls_imgs, produtos, precos_produtos):
+            gerenciador_magazine.append({"link": link, "url": url, "produto": produto, "preco": preco[3:]})
 
         self.navegador.quit()
         return gerenciador_magazine
         
+
     def casasBahia(self):
         sleep(2)
         self.navegador.get("https://www.casasbahia.com.br/c?filtro=D18858&ordenacao=maisVendidos&icid=199154_hp_stc_c7_ps1_b0_pb1")
 
+        produtos_links = self.navegador.find_elements(By.TAG_NAME, "a")
         produtos_img = self.navegador.find_elements(By.CLASS_NAME, "product-card__details-wrapper")
         produtos_titulo = self.navegador.find_elements(By.TAG_NAME, 'span')
         produtos_precos = self.navegador.find_elements(By.TAG_NAME, 'div')
         gerenciador_casasBahia = []
         
+        links = [link.get_attribute("href") for link in produtos_links if link.get_attribute("data-testid") == "product-card-link-overlay"]
         imgs = [div.find_element(By.TAG_NAME, "img") for div in produtos_img]
         urls_imgs = [img.get_attribute("src") for img in imgs if img.get_attribute("src")]
 
@@ -62,11 +68,11 @@ class ProdutosGet():
 
         precos = [preco.text for preco in produtos_precos if preco.text and preco.get_attribute("class") == "product-card__highlight-price" and preco.get_attribute("aria-hidden") == "true"]
         
-        if len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
-            for url, produto, preco in zip(urls_imgs, produtos, precos):
-                gerenciador_casasBahia.append({"url": url, "produto": produto, "preco": preco})
+        if len(links) == len(produtos) == len(precos) and len(produtos) == len(urls_imgs):
+            for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
+                gerenciador_casasBahia.append({"link": link, "url": url, "produto": produto, "preco": preco})
         else:
-            print(f"Erro: O número de produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
+            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
 
         self.navegador.quit()
         return gerenciador_casasBahia
@@ -92,5 +98,16 @@ class ProdutosGet():
             for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
                 gerenciador_kabum.append({"link": link, "url": url, "produto": produto, "preco": preco})
         else:
-            print("Erro: O número de produtos e urls não corresponde ao número de preços.")
+            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
         return gerenciador_kabum
+
+
+instancia = ProdutosGet()
+gerenciador = instancia.casasBahia()
+
+for c in gerenciador:
+    #print(c)
+    print(f"O link é: {c["link"]}")
+    print(f"A url é: {c["url"]}")
+    print(f'O produto é: {c["produto"]}')
+    print(f'O preço é: {c["preco"]}\n')
