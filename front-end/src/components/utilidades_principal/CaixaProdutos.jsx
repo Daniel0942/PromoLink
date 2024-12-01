@@ -16,7 +16,7 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                             </div>
                             <p>{produto.produto}</p>
                             <p><span>{produto.preco}</span></p>
-                            <a href={produto.link}>
+                            <a href={produto.link} target="blank">
                                 <FiExternalLink/>
                                 Visitar o site
                             </a>
