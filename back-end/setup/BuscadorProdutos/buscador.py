@@ -7,10 +7,18 @@ from time import sleep
 
 class ProdutosGet():
     def __init__(self):
+        # Modo headless (sem interface gráfica)
         options = Options()
-        options.add_argument("--headless")  # Modo headless (sem interface gráfica)
+        options.add_argument("--headless")
+        options.add_argument("--disable-gpu")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("start-maximized")
+        options.add_argument("enable-automation")
+        options.add_argument("--enable-unsafe-swiftshader")
+        options.add_argument("--log-level=3")  
+        options.add_argument("--disable-blink-features=AutomationControlled")
+        options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.198 Safari/537.36")
 
         servico = Service(ChromeDriverManager().install())
         self.navegador = webdriver.Chrome(service=servico, options=options)

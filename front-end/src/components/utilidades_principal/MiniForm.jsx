@@ -8,7 +8,7 @@ function MiniForm({setSite, função}) {
 
             <select name="site" onClick={(e)=> setSite(e.target.value)}>
                 <option value="" disabled selected>Escolha uma das opções</option>
-                <option value="Kabum">Kabum"</option>
+                <option value="Kabum">Kabum</option>
                 <option value="Casas Bahia">Casas Bahia</option>
                 <option value="Magazine Luiza">Magazine Luiza</option>
             </select>
