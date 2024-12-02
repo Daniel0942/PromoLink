@@ -24,7 +24,7 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                                 </a>
                             </div>
                             <Button 
-                            txt={favoritoAtivo ? "Remover" : "Adicionar aos favoritos"}
+                            txt={favoritoAtivo ? "Remover produto" : "Adicionar aos favoritos"}
                             tipo="button"
                             danger={favoritoAtivo ? "danger" : ""}
                             onClick={() => {

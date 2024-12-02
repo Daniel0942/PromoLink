@@ -73,6 +73,9 @@
                 &:hover {
                     text-decoration: underline;
                 }
+                &:visited { 
+                    color: #FF6F61;
+                }
             }
         }
     }
