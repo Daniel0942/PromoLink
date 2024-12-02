@@ -53,24 +53,26 @@
             margin: 10px auto; 
         }
 
-        & a {
+        & .link {
             display: flex;
-            color: #1F51FF;
+            gap: 5px;
             margin-left: auto;
             margin-right: 50px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            gap: 5px;
 
-            &:hover {
-                text-decoration: underline;
-            }
-            
             & svg {
                 color: black;
                 width: 20px;
                 height: 20px;
+            }
+
+            & a {
+                color: #1F51FF;
+                text-decoration: none;
+                font-size: 15px;
+                font-weight: 600;
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
     }

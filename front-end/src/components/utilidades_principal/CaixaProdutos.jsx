@@ -16,10 +16,13 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                             </div>
                             <p>{produto.produto}</p>
                             <p><span>{produto.preco}</span></p>
-                            <a href={produto.link} target="blank">
+
+                            <div className={style.link}>
                                 <FiExternalLink/>
-                                Visitar o site
-                            </a>
+                                <a href={produto.link} target="blank">
+                                    Visitar o site
+                                </a>
+                            </div>
                             <Button 
                             txt={favoritoAtivo ? "Remover" : "Adicionar aos favoritos"}
                             tipo="button"
