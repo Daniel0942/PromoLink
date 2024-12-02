@@ -6,8 +6,10 @@ import icone_user from "../../img/icone_user.svg"
 import user_logout from "../../img/user_logout.svg"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { FcSearch } from "react-icons/fc";
+import { IoMdSend } from "react-icons/io";
 
-function HeaderPrincipal({username}) {
+function HeaderPrincipal({username, setPesquisa, PesquisarProduto}) {
     // Funções menu dinâmico
     let [Menu, setMenu] = useState(false)
     function abrirMenu() {
@@ -37,9 +39,22 @@ function HeaderPrincipal({username}) {
         <div className={style.header}>
             <img src={Logo} alt="Logo em svg do figma" onClick={redirecionarPrincipal}/>
 
+            <div className={style.navbar}>
+                <div className={style.icone_lupa}>
+                    <FcSearch/>
+                </div>
+
+                <div className={style.input_navbar}>
+                    <input type="text" placeholder="Busca" 
+                    onChange={(e)=> setPesquisa(e.target.value)}/>
+                    <div className={style.icone_enviar} onClick={PesquisarProduto}>
+                        <IoMdSend/>
+                    </div>
+                </div>
+            </div>
+
             <nav className={style.btns_menu}>
                 <ul>
-                    <li>Sobre</li>
                     <li onClick={redirecionarFavoritos}>Favoritos</li>
                     <li onClick={redirecionarHistorico}>Histórico</li>
                     

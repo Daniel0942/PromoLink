@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from time import sleep
 
 class ProdutosGet():
@@ -100,3 +101,28 @@ class ProdutosGet():
         else:
             print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
         return gerenciador_kabum
+
+
+class PesquisaSite(ProdutosGet):
+    def __init__(self):
+        # Chamando o construtor da classe pai para configurar o navegador
+        super().__init__() 
+
+    def pesquisarKabum(self, pesquisa):
+        self.navegador.get("https://www.kabum.com.br/")
+        
+        sleep(1)
+        navbar = self.navegador.find_element(By.XPATH, '//*[@id="input-busca"]')
+        navbar.send_keys(pesquisa) # digita a pesquisa mandada por parâmetro
+        navbar.send_keys(Keys.ENTER)
+        sleep(1)
+
+        # Pegar link, nome, preco e url da imagem tudo apartir do artigo.
+        artigos = self.navegador.find_elements(By.TAG_NAME, "article")
+
+        tags_a = [artigo.find_element(By.TAG_NAME, "a") for artigo in artigos]
+        links = [link.get_attribute("href") for link in tags_a]
+
+        
+# instancia = PesquisaSite()
+# instancia.pesquisarKabum("celular")

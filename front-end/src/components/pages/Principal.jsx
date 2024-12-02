@@ -12,7 +12,8 @@ function Principal() {
     let [site, setSite] = useState("")
     let [gerenciador, setGerenciador] = useState([])
     let [carregamento, setCarregamento] = useState(false)
-    
+    let [pesquisa, setPesquisa] = useState()
+
     // função para exibição de mensagens dinâmicas
     let [message, setMessage] = useState(false)
     let [msgTXT, setmsgTXT] = useState()
@@ -65,32 +66,50 @@ function Principal() {
     }
 
     // enviar produto para o back-end adicionar ele à tabela favoritos
-    function adicionarFavorito(link, produto, preco, url) {
+    async function adicionarFavorito(link, produto, preco, url) {
         setCarregamento(true)
-        axios.post("http://127.0.0.1:5000/favoritos", {
-            username_id: username,
-            link: link,
-            site: site,
-            produto: produto,
-            preco: preco,
-            url: url
-        })
-        .then((response) => {
+        try {
+            let response = await axios.post("http://127.0.0.1:5000/favoritos", {
+                username_id: username,
+                link: link,
+                site: site,
+                produto: produto,
+                preco: preco,
+                url: url
+            })
             setCarregamento(false)
             setMessage(true)
             let msg = response.data.Success || "Falha na conexão com o servidor"
             showMessage(msg, "sucess")
-        })
-        .catch((err) => {
+        }
+        catch (err) {
             setCarregamento(false)
             console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
             let msg = err.response.data.Error || "Falha na conexão com o servidor"
             showMessage(msg, "danger")
-        })
+        }
     }
+    
+    // função para pesquisar produtos em todos os sites disponiveis
+    async function PesquisarProduto() {
+        setCarregamento(true)
+        try {
+            let response = await axios.post(`http://127.0.0.1:5000/pesquisar/${pesquisa}`)
+            setCarregamento(false)
+            let msg = response.data.Success || "Falha na conexão com o servidor"
+            showMessage(msg, "sucess")
+        }
+        catch(err) {
+            setCarregamento(false)
+            console.error(`Ocorreu o erro: ${err}`)
+            let msg = err.response.data.Error || "Falha na conexão com o servidor"
+            showMessage(msg, "danger")
+        }
+    }
+
     return (
         <>
-            <HeaderPrincipal username={username}/>
+            <HeaderPrincipal username={username} setPesquisa={setPesquisa} PesquisarProduto={PesquisarProduto}/>
             <MiniForm setSite={setSite} função={EnviarSite}/>
             {message && <Message txt={msgTXT} estilo={estilo}/>}
             <CaixaProdutos 

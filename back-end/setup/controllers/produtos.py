@@ -30,3 +30,8 @@ def receber_requisisao(site):
 
     # Retorna uma mensagem de sucesso
     return jsonify({"Success": "Site recebido com sucesso!"}), 200
+
+# função para pesquisar o produto de todos os sites e fazer a comparação
+@app.route("/pesquisar/<string:pesquisa>", methods=["POST"])
+def pesquisar(pesquisa):
+    pass
