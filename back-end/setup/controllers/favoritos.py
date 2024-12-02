@@ -21,7 +21,7 @@ def adicionar_favorito():
     site = data.get("site")
     produto = data.get("produto")
     url = data.get("url")
-
+    link = data.get("link")
     # O preco vem com "R$", e "," e pode ter valores com mais de um ponto.
     # Remover "R$", substituir "," por "." e corrigir separadores de milhar.
     preco_sifrão = data.get("preco")
@@ -32,7 +32,7 @@ def adicionar_favorito():
     try:
         conectar = Conexao()
         cursor = conectar.cursor()
-        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco) VALUES (%s, %s, %s, %s, %s)", (username_id, url, site, produto, preco))
+        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s)", (username_id, url, site, produto, preco, link))
         conectar.commit()
         return jsonify({"Success": "Produto inserido com sucesso!"}), 200
     except mysql.connector.errors.IntegrityError as erro: 

@@ -34,6 +34,7 @@ def CriarTabelas():
             site VARCHAR(100) NOT NULL,
             produto TEXT NOT NULL,
             preco DECIMAL(10, 2) NOT NULL,
+            link TEXT NOT NULL,
             FOREIGN KEY (username_id) REFERENCES users(username)
         )""")
     conectar.commit()

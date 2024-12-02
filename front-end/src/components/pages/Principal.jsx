@@ -65,10 +65,11 @@ function Principal() {
     }
 
     // enviar produto para o back-end adicionar ele à tabela favoritos
-    function adicionarFavorito(produto, preco, url) {
+    function adicionarFavorito(link, produto, preco, url) {
         setCarregamento(true)
         axios.post("http://127.0.0.1:5000/favoritos", {
             username_id: username,
+            link: link,
             site: site,
             produto: produto,
             preco: preco,

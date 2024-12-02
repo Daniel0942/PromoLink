@@ -31,7 +31,7 @@ function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAt
                                 favoritoAtivo ? (
                                     (removerFavorito(produto.id))
                                 )
-                                : (adicionarFavorito(produto.produto, produto.preco, produto.url))
+                                : (adicionarFavorito(produto.link, produto.produto, produto.preco, produto.url))
                             }}
                             />
                         </div>
