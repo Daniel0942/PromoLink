@@ -47,9 +47,10 @@
             }
         }
         button {
-            margin-top: 10px;
             width: 180px;
             height: 80px;
+            display: block; 
+            margin: 10px auto; 
         }
 
         & a {
