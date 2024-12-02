@@ -55,8 +55,8 @@
         & a {
             display: flex;
             color: #1F51FF;
-            margin-left: auto;
-            margin-right: 50px;
+            margin-left: auto !important;
+            margin-right: 50px !important;
             text-decoration: none;
             font-size: 15px;
             font-weight: 600;
