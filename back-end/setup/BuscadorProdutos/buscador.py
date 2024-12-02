@@ -110,7 +110,8 @@ class PesquisaSite(ProdutosGet):
 
     def pesquisarKabum(self, pesquisa):
         self.navegador.get("https://www.kabum.com.br/")
-        
+        gerenciador = []
+
         sleep(1)
         navbar = self.navegador.find_element(By.XPATH, '//*[@id="input-busca"]')
         navbar.send_keys(pesquisa) # digita a pesquisa mandada por parâmetro
@@ -120,9 +121,73 @@ class PesquisaSite(ProdutosGet):
         # Pegar link, nome, preco e url da imagem tudo apartir do artigo.
         artigos = self.navegador.find_elements(By.TAG_NAME, "article")
 
+        # Pegando o link
         tags_a = [artigo.find_element(By.TAG_NAME, "a") for artigo in artigos]
         links = [link.get_attribute("href") for link in tags_a]
 
-        
+        # Pegando a url da img
+        tags_imgs = [artigo.find_element(By.TAG_NAME, "img") for artigo in artigos]
+        urls_imgs = [img.get_attribute("src") for img in tags_imgs]
+
+        # Pegando nome de produtos pelos span dentro dos h3
+        tags_h3 = [artigo.find_element(By.TAG_NAME, "h3") for artigo in artigos]
+        produtos = [tag.find_element(By.TAG_NAME, "span").text for tag in tags_h3]
+
+        # Pegando os preços dos artigos, apartir das classes
+        precos =[artigo.find_element(By.CLASS_NAME, "sc-57f0fd6e-2").text for artigo in artigos]
+
+        if len(links) == len(urls_imgs) and len(produtos) == len(precos):
+            for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
+                gerenciador.append({"link": link, "url": url, "produto": produto, "preco": preco})
+        else:
+            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
+
+        return gerenciador
+
+    def pesquisarMagazine(self, pesquisa):
+        self.navegador.get("https://www.magazineluiza.com.br/")
+        gerenciador = []
+
+        sleep(2)
+        navbar = self.navegador.find_element(By.XPATH, '//*[@id="input-search"]')
+        navbar.send_keys(pesquisa) # digita a pesquisa mandada por parâmetro
+        navbar.send_keys(Keys.ENTER)
+        sleep(3)
+
+        # Pegar link, nome, preco e url da imagem tudo apartir de uma classe de li (lista).
+        tags_li = self.navegador.find_elements(By.CLASS_NAME, "sc-iNIeMn")
+
+        # Pegar link direto da li 
+        links = [tag.find_element(By.TAG_NAME, "a").get_attribute("href") for tag in tags_li]
+
+        # Pegar o url img direto da li 
+        urls_imgs = [tag.find_element(By.TAG_NAME, "img").get_attribute("src") for tag in tags_li]
+
+        # Pegar o nome do produto, apartir do h2
+        tags_h2 = [tag.find_element(By.TAG_NAME, "h2") for tag in tags_li]
+        produtos = [produto.text for produto in tags_h2 if produto.get_attribute("data-testid")]
+
+        # Pegar o preço da produto, a partir de uma div
+        precos_magalu = [tag.find_element(By.TAG_NAME, "p").text for tag in tags_li]
+        # Refatorar e substituir valores indesejados
+        precos = [
+            preco.replace("magalu indica", "Preço não disponível").replace("Patrocinado", "Preço não disponível")
+            for preco in precos_magalu
+        ]
+
+        if len(links) == len(urls_imgs) and len(produtos) == len(precos):
+            for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
+                gerenciador.append({"link": link, "url": url, "produto": produto, "preco": preco})
+        else:
+            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
+
+        return gerenciador
+
 # instancia = PesquisaSite()
-# instancia.pesquisarKabum("celular")
+# gerenciador = instancia.pesquisarMagazine("celular")
+# for c in gerenciador: 
+#     #print(c)
+#     print(f"O link: {c['link']}")
+#     print(f"A url da img: {c['url']}")
+#     print(f"O produto: {c['produto']}")
+#     print(f"O preço: {c['preco']}\n")
