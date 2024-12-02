@@ -54,7 +54,7 @@
         }
 
         & .link {
-            display: flex;
+            display: flex !important;
             width: 120px;
             gap: 5px;
             margin-left: auto;
