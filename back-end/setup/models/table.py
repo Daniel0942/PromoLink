@@ -33,7 +33,7 @@ def CriarTabelas():
             url TEXT NOT NULL,
             site VARCHAR(100) NOT NULL,
             produto TEXT NOT NULL,
-            preco DECIMAL(10, 2) NOT NULL,
+            preco DECIMAL(10, 2) NULL,
             link TEXT NOT NULL,
             FOREIGN KEY (username_id) REFERENCES users(username)
         )""")
@@ -51,3 +51,14 @@ def CriarTabelas():
 
     cursor.close()
     conectar.close()
+
+conectar = Conexao()
+cursor = conectar.cursor()
+cursor.execute("ALTER TABLE favoritos MODIFY COLUMN preco DECIMAL(10, 2) NULL")
+cursor.execute("SHOW COLUMNS FROM favoritos")
+tudo = cursor.fetchall()
+for c in tudo:
+    print(c)
+conectar.commit()
+cursor.close()
+conectar.close()
