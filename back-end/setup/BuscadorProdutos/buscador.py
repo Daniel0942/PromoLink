@@ -228,12 +228,13 @@ class PesquisaSite(ProdutosGet):
 
         return gerenciador
 
-instancia = PesquisaSite()
-gerenciador = instancia.pesquisarCasasBahia("processador")
-for c in gerenciador: 
-    #print(c)
-    print(f"O link: {c['link']}")
-    print(f"A url da img: {c['url']}")
-    print(f"O produto: {c['produto']}")
-    print(f"O preço: {c['preco']}\n")
+# Testar localmente
+# instancia = PesquisaSite()
+# gerenciador = instancia.pesquisarCasasBahia("processador")
+# for c in gerenciador: 
+#     #print(c)
+#     print(f"O link: {c['link']}")
+#     print(f"A url da img: {c['url']}")
+#     print(f"O produto: {c['produto']}")
+#     print(f"O preço: {c['preco']}\n")
 
