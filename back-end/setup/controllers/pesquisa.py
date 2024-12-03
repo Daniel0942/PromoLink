@@ -22,4 +22,4 @@ def pesquisar(pesquisa):
         gerenciadorPesquisa.append(instancia.pesquisarCasasBahia(pesquisa))
         gerenciadorPesquisa.append(instancia.pesquisarMagazine(pesquisa))
     except Exception as e:
-        print(f"Ocorreu o erro pesquisar produtos nos sites: {str(e)}")
+        print(f'Ocorreu o erro ao fazer a pesquisa "{pesquisa}" nos sites: {str(e)}')
