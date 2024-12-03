@@ -183,11 +183,57 @@ class PesquisaSite(ProdutosGet):
 
         return gerenciador
 
-# instancia = PesquisaSite()
-# gerenciador = instancia.pesquisarMagazine("celular")
-# for c in gerenciador: 
-#     #print(c)
-#     print(f"O link: {c['link']}")
-#     print(f"A url da img: {c['url']}")
-#     print(f"O produto: {c['produto']}")
-#     print(f"O preço: {c['preco']}\n")
+    def pesquisarCasasBahia(self, pesquisa):
+        self.navegador.get("https://www.casasbahia.com.br/")
+        gerenciador =[]
+
+        sleep(3)
+        navbar = self.navegador.find_element(By.XPATH, '//*[@id="search-form-input"]')
+        navbar.send_keys(pesquisa)
+        navbar.send_keys(Keys.ENTER)
+        sleep(3)
+
+        # Pegar link, img, nome e preço atráves da div
+        tags_div = self.navegador.find_elements(By.CLASS_NAME, "css-1enexmx")
+
+        # Pegar link
+        links = [
+            tag.find_element(By.CLASS_NAME, "dsvia-link-overlay").get_attribute("href")
+            for tag in tags_div
+            ]
+
+        # Pegar url da img
+        urls_imgs = [
+            tag.find_element(By.CLASS_NAME, "product-card__image").get_attribute("src") 
+            for tag in tags_div
+]
+
+        # Pegar nome do produto
+        produtos = [
+            tag.find_element(By.CLASS_NAME, "product-card__title").text 
+            for tag in tags_div
+            ]
+
+        # Pegar preço
+        precos = [
+            tag.find_element(By.CLASS_NAME, "product-card__highlight-price").text 
+            for tag in tags_div
+            ]
+
+        if len(links) == len(urls_imgs) and len(produtos) == len(precos):
+            for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
+                gerenciador.append({"link": link, "url": url, "produto": produto, "preco": preco})
+        else:
+            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
+
+        return gerenciador
+
+instancia = PesquisaSite()
+gerenciador = instancia.pesquisarCasasBahia("processador")
+for c in gerenciador: 
+    #print(c)
+    print(f"O link: {c['link']}")
+    print(f"A url da img: {c['url']}")
+    print(f"O produto: {c['produto']}")
+    print(f"O preço: {c['preco']}\n")
+
