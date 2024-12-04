@@ -1,7 +1,6 @@
 .loading {
     width: 150px;
-    position: absolute;
-    display: flex;
+    position: fixed; /* Garante que fique fixo na tela */
     top: 50%; /* Posiciona verticalmente no meio da tela */
     left: 50%; /* Posiciona horizontalmente no meio da tela */
     transform: translate(-50%, -50%);

@@ -49,10 +49,12 @@ function Pesquisa() {
     return (
         <>
             <HeaderPrincipal username={username}/>
-            {carregamento && <Loading />}
-            {message && <Message txt={msgTXT} estilo={estilo}/>}
             <BtnBack/>
-            <CaixaProdutos gerenciador={gerenciadorPesquisa}/> 
+            <CaixaProdutos username={username}
+            gerenciador={gerenciadorPesquisa}/>
+
+            {carregamento && <Loading />}
+            {message && <Message txt={msgTXT} estilo={estilo}/>} 
         </>
     )
 }

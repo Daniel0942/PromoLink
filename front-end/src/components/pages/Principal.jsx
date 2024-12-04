@@ -55,31 +55,6 @@ function Principal() {
         .catch(erro => {console.error(`Ocorreu ao enviar o siteHistorico: ${erro}`)})
     }
 
-    // enviar produto para o back-end adicionar ele à tabela favoritos
-    async function adicionarFavorito(link, produto, preco, url) {
-        setCarregamento(true)
-        try {
-            let response = await axios.post("http://127.0.0.1:5000/favoritos", {
-                username_id: username,
-                link: link,
-                site: site,
-                produto: produto,
-                preco: preco,
-                url: url
-            })
-            setCarregamento(false)
-            setMessage(true)
-            let msg = response.data.Success || "Falha na conexão com o servidor"
-            showMessage(msg, "sucess")
-        }
-        catch (err) {
-            setCarregamento(false)
-            console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
-            let msg = err.response.data.Error || "Falha na conexão com o servidor"
-            showMessage(msg, "danger")
-        }
-    }
-
     // função para mandar a pesquisa para o back-end, ai o back-end faz a busca e retorna resultado completo
     async function PesquisarProduto() {
         setCarregamento(true)
@@ -104,10 +79,10 @@ function Principal() {
             <HeaderPrincipal username={username} setPesquisa={setPesquisa} 
             PesquisarProduto={PesquisarProduto} principalAtivo={principalAtivo}/>
             <MiniForm setSite={setSite} função={EnviarSite}/>
+            <CaixaProdutos gerenciador={gerenciador}/>
+
             {carregamento && <Loading/>}
             {message && <Message txt={msgTXT} estilo={estilo}/>}
-            <CaixaProdutos 
-            gerenciador={gerenciador} adicionarFavorito={adicionarFavorito}/>
         </>
     )
 }

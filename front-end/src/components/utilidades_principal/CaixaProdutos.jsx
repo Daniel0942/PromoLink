@@ -1,8 +1,52 @@
 import style from "./CaixaProdutos.module.css"
 import Button from "../utilidades_global/Button"
 import { FiExternalLink } from "react-icons/fi"
+import Loading from "../utilidades_global/Loading"
+import Message from "../utilidades_global/Message"
+import { useState } from "react"
+import axios from "axios"
 
-function CaixaProdutos({gerenciador, adicionarFavorito, favoritoAtivo, removerFavorito}) {
+function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) {
+    let [carregamento, setCarregamento] = useState(false)
+
+    // função para exibição de mensagens dinâmicas
+    let [message, setMessage] = useState(false)
+    let [msgTXT, setmsgTXT] = useState()
+    let [estilo, setEstilo] = useState()
+    function showMessage(txt, style) {
+        setMessage(true)
+        setmsgTXT(txt)
+        setEstilo(style)
+        setTimeout(() => {
+            setMessage(false)
+        }, 3000)
+    }
+
+    // enviar produto para o back-end adicionar ele à tabela favoritos
+    async function adicionarFavorito(link, produto, preco, url, site="indisponivel") {
+        setCarregamento(true)
+        try {
+            let response = await axios.post("http://127.0.0.1:5000/favoritos", {
+                username_id: username,
+                link: link,
+                site: site,
+                produto: produto,
+                preco: preco,
+                url: url
+            })
+            setCarregamento(false)
+            setMessage(true)
+            let msg = response.data.Success || "Falha na conexão com o servidor"
+            showMessage(msg, "sucess")
+        }
+        catch (err) {
+            setCarregamento(false)
+            console.error(`Deu erro ao adicionar produto aos favoritos: ${err}`)
+            let msg = err.response.data.Error || "Falha na conexão com o servidor"
+            showMessage(msg, "danger")
+        }
+    }
+
     return (
         <>
             <div className={style.container}>
@@ -39,6 +83,9 @@ function CaixaProdutos({gerenciador, adicionarFavorito, favoritoAtivo, removerFa
                             : "Nenhum site selecionado!"}</p>
                     )}
                 </div>
+
+                {carregamento && <Loading/>}
+                {message && <Message txt={msgTXT} estilo={estilo}/>}
             </>
     )
 }

@@ -66,12 +66,13 @@ function Favoritos() {
     return (
         <>
             <HeaderPrincipal username={username}/>
-            {message && <Message txt={msgTXT} estilo={estilo}/>}
-            {carregamento && <Loading/>}
             <BtnBack/>
             <CaixaProdutos gerenciador={gerenciadorFavoritos}
             favoritoAtivo={favoritoAtivo}
             removerFavorito={removerFavorito}/>
+
+            {message && <Message txt={msgTXT} estilo={estilo}/>}
+            {carregamento && <Loading/>}
         </>
     )
 }

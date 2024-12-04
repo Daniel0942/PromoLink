@@ -47,10 +47,12 @@ function Produtos() {
     return (
         <>
             <HeaderPrincipal username={username}/>
+            <BtnBack/>
+            <CaixaProdutos username={username}
+            gerenciador={gerenciador}/>
+
             {carregamento && <Loading/>}
             {message && <Message txt={msgTXT} estilo={estilo}/>}
-            <BtnBack/>
-            <CaixaProdutos gerenciador={gerenciador}/>
         </>
     )
 }
