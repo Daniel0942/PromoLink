@@ -1,12 +1,10 @@
 import style from "./CaixaProdutos.module.css"
-import Loading from "../utilidades_global/Loading"
 import Button from "../utilidades_global/Button"
 import { FiExternalLink } from "react-icons/fi"
 
-function CaixaProdutos({gerenciador, carregamento, adicionarFavorito, favoritoAtivo, removerFavorito}) {
+function CaixaProdutos({gerenciador, adicionarFavorito, favoritoAtivo, removerFavorito}) {
     return (
         <>
-            {carregamento && <Loading/>}
             <div className={style.container}>
                 {gerenciador.length > 0 ? (
                     gerenciador.map((produto, index)=> (

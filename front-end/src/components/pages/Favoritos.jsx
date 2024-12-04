@@ -5,6 +5,7 @@ import CaixaProdutos from "../utilidades_principal/CaixaProdutos"
 import { useLocation } from "react-router-dom"
 import Message from "../utilidades_global/Message"
 import Loading from "../utilidades_global/Loading"
+import BtnBack from "../utilidades_global/BtnBack"
 
 function Favoritos() {
     let location = useLocation() //buscar state da página
@@ -67,6 +68,7 @@ function Favoritos() {
             <HeaderPrincipal username={username}/>
             {message && <Message txt={msgTXT} estilo={estilo}/>}
             {carregamento && <Loading/>}
+            <BtnBack/>
             <CaixaProdutos gerenciador={gerenciadorFavoritos}
             favoritoAtivo={favoritoAtivo}
             removerFavorito={removerFavorito}/>

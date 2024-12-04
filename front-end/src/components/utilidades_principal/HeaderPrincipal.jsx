@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { FcSearch } from "react-icons/fc";
 import { IoMdSend } from "react-icons/io";
 
-function HeaderPrincipal({username, setPesquisa, PesquisarProduto}) {
+function HeaderPrincipal({username, setPesquisa, PesquisarProduto, principalAtivo}) {
     // Funções menu dinâmico
     let [Menu, setMenu] = useState(false)
     function abrirMenu() {
@@ -19,18 +19,18 @@ function HeaderPrincipal({username, setPesquisa, PesquisarProduto}) {
         setMenu(false)
     }
 
+    // config de navegações das rotas do menu
     let navigate = useNavigate()
-    // função pra redirecionar para a página de historico e enviar o username
+    
+    // Redirecionamento para a página de historico e enviar o username
     function redirecionarHistorico() {
         navigate("/principal/historico", { state: {username} })
     }
-    
-    // função pra redirecionar para a página de favoritos e enviar o username
+    // Redirecionamento para página de favoritos e enviar o username
     function redirecionarFavoritos() {
         navigate("/principal/favoritos", { state: {username} })
     }
-
-    // função pra redirecionar para a página de principal e enviar o username
+    // Redirecionamento para a página de principal e enviar o username
     function redirecionarPrincipal() {
         navigate("/principal", { state: {username} })
     }
@@ -39,19 +39,22 @@ function HeaderPrincipal({username, setPesquisa, PesquisarProduto}) {
         <div className={style.header}>
             <img src={Logo} alt="Logo em svg do figma" onClick={redirecionarPrincipal}/>
 
-            <div className={style.navbar}>
-                <div className={style.icone_lupa}>
-                    <FcSearch/>
-                </div>
+            {principalAtivo && 
+                <div className={style.navbar}>
+                    <div className={style.icone_lupa}>
+                        <FcSearch/>
+                    </div>
 
-                <div className={style.input_navbar}>
-                    <input type="text" placeholder="Busca" 
-                    onChange={(e)=> setPesquisa(e.target.value)}/>
-                    <div className={style.icone_enviar} onClick={PesquisarProduto}>
-                        <IoMdSend/>
+                    <div className={style.input_navbar}>
+                        <input type="text" placeholder="Busca" 
+                        onChange={(e)=> setPesquisa(e.target.value)}/>
+                        <div className={style.icone_enviar} 
+                        onClick={PesquisarProduto}>
+                            <IoMdSend/>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
 
             <nav className={style.btns_menu}>
                 <ul>

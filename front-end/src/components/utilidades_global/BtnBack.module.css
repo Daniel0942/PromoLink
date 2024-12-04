@@ -1,0 +1,9 @@
+.btn_back {
+    margin: 40px;
+    cursor: pointer;
+    
+    & svg {
+        font-size: 40px;
+        color: #1F51FF;
+    }
+}

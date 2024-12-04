@@ -3,16 +3,19 @@ import CaixaProdutos from "../utilidades_principal/CaixaProdutos"
 import HeaderPrincipal from "../utilidades_principal/HeaderPrincipal"
 import MiniForm from "../utilidades_principal/MiniForm"
 import Message from "../utilidades_global/Message"
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
+import Loading from "../utilidades_global/Loading"
 
 function Principal() {
     let location = useLocation() //buscar state da página
     let username = location.state?.username || "Visitante" //armazenar state do username
+    let gerenciador = []
     let [site, setSite] = useState("")
-    let [gerenciador, setGerenciador] = useState([])
     let [carregamento, setCarregamento] = useState(false)
     let [pesquisa, setPesquisa] = useState()
+    let navigate = useNavigate()
+    let principalAtivo = true
 
     // função para exibição de mensagens dinâmicas
     let [message, setMessage] = useState(false)
@@ -33,29 +36,16 @@ function Principal() {
         setCarregamento(true)
         axios.post(`http://127.0.0.1:5000/produtos/${site}`)
         .then(()=> {
-            BuscarProdutos()
-            EnviarSiteHistorico()
+            setCarregamento(false)
+            EnviarSiteHistorico()   
+            navigate("/principal/produtos", {state: {username}})
         })
         .catch(error => {
             console.error(`Ocorreu o erro: ${error}`)
+            setCarregamento(false)
         })
     }
     
-    // Função para buscar os produtos do back-end
-    async function BuscarProdutos() {
-        try {
-            let response = await axios.get("http://127.0.0.1:5000/produtos")
-            setGerenciador(response.data) // Atualiza com os produtos
-        } 
-        catch (err) {
-            console.error(`Erro ao buscar produtos: ${err}`);
-            // Verifica se tem resposta, se não tiver há uma falha na conexão.
-            let mensagemErro = err.response.data.Error || "Falha na conexão com o servidor!"
-            showMessage(mensagemErro, "danger")
-        }
-        finally {setCarregamento(false)}
-    }
-
     // enviar o site para o back-end colocar no historico
     function EnviarSiteHistorico() {
         axios.post(`http://127.0.0.1:5000/historico`, {
@@ -89,17 +79,19 @@ function Principal() {
             showMessage(msg, "danger")
         }
     }
-    
-    // função para pesquisar produtos em todos os sites disponiveis
+
+    // função para mandar a pesquisa para o back-end, ai o back-end faz a busca e retorna resultado completo
     async function PesquisarProduto() {
         setCarregamento(true)
+        console.log("Produto chamado com sucesso")
         try {
             let response = await axios.post(`http://127.0.0.1:5000/pesquisar/${pesquisa}`)
             setCarregamento(false)
             let msg = response.data.Success || "Falha na conexão com o servidor"
             showMessage(msg, "sucess")
+            navigate("/principal/pesquisa", {state: {username}})
         }
-        catch(err) {
+        catch (err) {
             setCarregamento(false)
             console.error(`Ocorreu o erro: ${err}`)
             let msg = err.response.data.Error || "Falha na conexão com o servidor"
@@ -109,14 +101,13 @@ function Principal() {
 
     return (
         <>
-            <HeaderPrincipal username={username} setPesquisa={setPesquisa} PesquisarProduto={PesquisarProduto}/>
+            <HeaderPrincipal username={username} setPesquisa={setPesquisa} 
+            PesquisarProduto={PesquisarProduto} principalAtivo={principalAtivo}/>
             <MiniForm setSite={setSite} função={EnviarSite}/>
+            {carregamento && <Loading/>}
             {message && <Message txt={msgTXT} estilo={estilo}/>}
             <CaixaProdutos 
-            gerenciador={gerenciador} 
-            carregamento={carregamento}
-            adicionarFavorito={adicionarFavorito}
-            />
+            gerenciador={gerenciador} adicionarFavorito={adicionarFavorito}/>
         </>
     )
 }
