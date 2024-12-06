@@ -58,7 +58,6 @@ function Principal() {
     // função para mandar a pesquisa para o back-end, ai o back-end faz a busca e retorna resultado completo
     async function PesquisarProduto() {
         setCarregamento(true)
-        console.log("Produto chamado com sucesso")
         try {
             let response = await axios.post(`http://127.0.0.1:5000/pesquisar/${pesquisa}`)
             setCarregamento(false)

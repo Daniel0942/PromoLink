@@ -57,7 +57,11 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                                 <img src={produto.url} alt="imagem do produto"/>
                             </div>
                             <p>{produto.produto}</p>
-                            <p><span>{produto.preco}</span></p>
+                            <p>
+                                <span>{produto.preco ? produto.preco 
+                            : "Preço não disponível"}
+                                </span>
+                            </p>
 
                             <div className={style.link}>
                                 <FiExternalLink/>

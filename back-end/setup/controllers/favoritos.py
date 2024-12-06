@@ -22,12 +22,23 @@ def adicionar_favorito():
     produto = data.get("produto")
     url = data.get("url")
     link = data.get("link")
+
     # O preco vem com "R$", e "," e pode ter valores com mais de um ponto.
     # Remover "R$", substituir "," por "." e corrigir separadores de milhar.
     preco_sifrão = data.get("preco")
-    preco = preco_sifrão[3:].replace(",", ".")  # Remove "R$" e troca "," por "."
-    if preco.count(".") > 1:  # Se houver mais de um ponto, remova os extras.
-        preco = preco.replace(".", "", preco.count(".") - 1)
+    if "juros" not in preco_sifrão and "Preço não disponível" not in preco_sifrão:
+        preco = preco_sifrão[3:].replace(",", ".")  # Remove "R$" e troca "," por "."
+        if preco.count(".") > 1:  # Se houver mais de um ponto, remova os extras.
+            preco = preco.replace(".", "", preco.count(".") - 1)
+
+    elif "juros" in preco_sifrão:
+        preco = preco_sifrão.split()[1] # Separa por espaço e pega o segundo valor
+        preco = preco.replace(",", ".")
+        if preco.count(".") > 1:
+            preco = preco.replace(".", "", preco.count(".") - 1)
+
+    elif "Preço não disponível" in preco_sifrão:
+        preco = None
 
     try:
         conectar = Conexao()
