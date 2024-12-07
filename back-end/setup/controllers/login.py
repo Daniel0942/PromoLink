@@ -1,39 +1,35 @@
 from setup import app
-from flask import request, jsonify
+from flask import request, jsonify, session
 from setup.models.table import Conexao
 import mysql.connector.errors
 
-# função pra retornar dados json do login
-@app.route("/users")
-def users_json():
-    conectar = Conexao()
-    cursor = conectar.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users")
-    users = cursor.fetchall()
-    return jsonify(users)
-
-# Função para registrar novo usuário no banco de dados
+# função para validação do login
 @app.route("/users", methods=["POST"])
-def inserir_usuarios():
+def Logar():
     data = request.get_json()
 
-    username = data.get("username")
     email = data.get("email")
     password = data.get("password")
-
-    conectar = Conexao()
-    cursor = conectar.cursor()
+    print(f"O email: {email}")
     try:
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", (username, email, password))
-        conectar.commit()
-        return jsonify({"message": "Enviado com sucesso"}), 200
-    except mysql.connector.errors.IntegrityError as erro:
-        if erro.errno == 1062:
-            print(f"[ERROR], {username} já existe no banco de dados")
-            return jsonify({"ERRO": f"{username} ja existe no banco de dados"}), 409
+        conectar = Conexao()
+        cursor = conectar.cursor(dictionary=True)
+        # pegar somente o username do usuário logado para armazenar na sessão 
+        cursor.execute("SELECT username FROM users WHERE email = %s AND password = %s", ( email, password))
+        resultado = cursor.fetchone()
+        if resultado:
+            username = resultado["username"] # extrair username do resultado
+            session["username"] = username
+            return jsonify({
+                "Success": "Usuário com sucesso!",
+                "Username": username
+                }), 200
         else:
-            print(f"Erro inesperado: {str(erro)}")
-            return jsonify({"ERRO": "Erro ao registrar usuário"}), 500
+            return jsonify({"Error": "Usuário ou senha incorretos!"}), 401
+
+    except Exception as e:
+        print(f"Deu o erro ao logar: {str(e)}")
+        return jsonify({"Error": "Ocorreu erro ao fazer login"}), 500
     finally:
         cursor.close()
         conectar.close()
