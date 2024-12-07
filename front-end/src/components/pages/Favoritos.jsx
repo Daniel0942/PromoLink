@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom"
 import Message from "../utilidades_global/Message"
 import Loading from "../utilidades_global/Loading"
 import BtnBack from "../utilidades_global/BtnBack"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Favoritos() {
     let location = useLocation() //buscar state da página
@@ -14,18 +15,9 @@ function Favoritos() {
     let favoritoAtivo = true
     let [carregamento, setCarregamento] = useState(false)
 
-    // função para msgs dinâmicas
-    let [message, setMessage] = useState(false)
-    let [msgTXT , setmsgTXT] = useState()
-    let [estilo, setEstilo] = useState()
-    function showMessages(txt, style) {
-        setMessage(true)
-        setmsgTXT(txt)
-        setEstilo(style)
-        setTimeout(()=>{
-            setMessage(false)
-        }, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
+
     useEffect(()=>{
         setCarregamento(true)
         async function BuscarFavoritos() {
@@ -53,13 +45,13 @@ function Favoritos() {
                 prevState.filter(favorito => favorito.id !== id)
             );
             let mensagemSucesso = response.data.Success || "Falha na conexão com o servidor "
-            showMessages(mensagemSucesso, "sucess")
+            showMessage(mensagemSucesso, "sucess")
         })
         .catch((err) => {
             setCarregamento(false)
             console.error(`Ocorreu o erro ao remover produto: ${err}`)
             let mensagemErro = err.response.data.Error || "Falha na conexão com o servidor"
-            showMessages(mensagemErro, "danger")
+            showMessage(mensagemErro, "danger")
         })
     }
 

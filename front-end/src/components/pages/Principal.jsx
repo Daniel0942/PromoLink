@@ -6,6 +6,7 @@ import Message from "../utilidades_global/Message"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import Loading from "../utilidades_global/Loading"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Principal() {
     let location = useLocation() //buscar state da página
@@ -17,33 +18,30 @@ function Principal() {
     let navigate = useNavigate()
     let principalAtivo = true
 
-    // função para exibição de mensagens dinâmicas
-    let [message, setMessage] = useState(false)
-    let [msgTXT, setmsgTXT] = useState()
-    let [estilo, setEstilo] = useState()
-    function showMessage(txt, style) {
-        setMessage(true)
-        setmsgTXT(txt)
-        setEstilo(style)
-        setTimeout(() => {
-            setMessage(false)
-        }, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
 
     // função para enviar o site para o back-end 
     function EnviarSite(e) {
         e.preventDefault()
         setCarregamento(true)
-        axios.post(`http://127.0.0.1:5000/produtos/${site}`)
-        .then(()=> {
+        if (site.length > 0) {
+            axios.post(`http://127.0.0.1:5000/produtos/${site}`)
+            .then(()=> {
+                setCarregamento(false)
+                EnviarSiteHistorico()   
+                navigate("/principal/produtos", {state: {username}})
+            })
+            .catch(error => {
+                console.error(`Ocorreu o erro: ${error}`)
+                setCarregamento(false)
+            })
+        }
+        else { 
             setCarregamento(false)
-            EnviarSiteHistorico()   
-            navigate("/principal/produtos", {state: {username}})
-        })
-        .catch(error => {
-            console.error(`Ocorreu o erro: ${error}`)
-            setCarregamento(false)
-        })
+            showMessage("Escolha um das opções", "danger")
+        }
+        
     }
     
     // enviar o site para o back-end colocar no historico

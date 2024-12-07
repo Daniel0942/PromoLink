@@ -6,6 +6,7 @@ import Message from "../utilidades_global/Message"
 import CaixaProdutos from "../utilidades_principal/CaixaProdutos"
 import { useLocation } from "react-router-dom"
 import BtnBack from "../utilidades_global/BtnBack"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Pesquisa() {
     let location = useLocation() //buscar state da página
@@ -13,18 +14,8 @@ function Pesquisa() {
     let [carregamento, setCarregamento] = useState(false)
     let [gerenciadorPesquisa, setGerenciadorPesquisa] = useState([])
 
-    // função para exibição de mensagens dinâmicas
-    let [message, setMessage] = useState(false)
-    let [msgTXT, setmsgTXT] = useState()
-    let [estilo, setEstilo] = useState()
-    function showMessage(txt, style) {
-        setMessage(true)
-        setmsgTXT(txt)
-        setEstilo(style)
-        setTimeout(() => {
-            setMessage(false)
-        }, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
 
     // Função para buscar todo o resultado da pesquisa
     useEffect(() => {

@@ -9,6 +9,7 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Message from "../utilidades_global/Message.jsx"
 import Loading from "../utilidades_global/Loading.jsx"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_P1, txt_P2, rota_link , requisisao}) {
     let [username, setUsername] = useState("")
@@ -17,18 +18,8 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     let navigate = useNavigate() // redirecionamentos
     let [carregamento, setCarregamento] = useState(false)
 
-    // função para exibição de mensagens dinâmicas
-    let [message, setMessage] = useState(false)
-    let [msgTXT, setmsgTXT] = useState()
-    let [estilo, setEstilo] = useState()
-    function showMessage(txt, style) {
-        setMessage(true)
-        setmsgTXT(txt)
-        setEstilo(style)
-        setTimeout(() => {
-            setMessage(false)
-        }, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
     
     async function Logar(e) {
         setCarregamento(true)
