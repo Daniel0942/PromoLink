@@ -14,18 +14,20 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
     let [username, setUsername] = useState("")
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
-    let [msgVisible, setMsgVisible] = useState(false)
-    let [txtMessage, setTxtMessage] = useState("") 
-    let [msgStyle, setMsgStyle] = useState("")
     let navigate = useNavigate() // redirecionamentos
     let [carregamento, setCarregamento] = useState(false)
 
-    // função de mostrar msg de erro ou sucesso [danger, sucess]
-    function ShowMsg(msg, style) {
-        setTxtMessage(msg) 
-        setMsgStyle(style)
-        setMsgVisible(true)
-        setTimeout(()=> {setMsgVisible(false)}, 3000)
+    // função para exibição de mensagens dinâmicas
+    let [message, setMessage] = useState(false)
+    let [msgTXT, setmsgTXT] = useState()
+    let [estilo, setEstilo] = useState()
+    function showMessage(txt, style) {
+        setMessage(true)
+        setmsgTXT(txt)
+        setEstilo(style)
+        setTimeout(() => {
+            setMessage(false)
+        }, 3000)
     }
     
     async function Logar(e) {
@@ -45,7 +47,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
             setEmail("")
             setPassword("")
             let msg = err.response.data.Error || "Falha na conexão com o servidor"
-            ShowMsg(msg, "danger")
+            showMessage(msg, "danger")
         }
     }
 
@@ -61,7 +63,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
             .then((response)=>{
                 setCarregamento(false)
                 let msg = response.data.Success || "Falha na conexão com o servidor"
-                ShowMsg(msg, "sucess")
+                showMessage(msg, "sucess")
                 setTimeout(()=> {
                     navigate("/")
                 }, 3000)   
@@ -70,11 +72,13 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
             .catch((error)=> {
                 setCarregamento(false)
                 // pegando respostas do servidor, mandados lá do back-end
-                if (error.response) {
-                    let msg = error.response.data.Error || "Falha na conexão com o servidor"
-                    ShowMsg(msg, "danger")
-                }
+                let msg = error.response.data.Error || "Falha na conexão com o servidor"
+                showMessage(msg, "danger")
             })
+        }
+        else {
+            setCarregamento(false)
+            showMessage("Preencha todos os campos do formulário!", "danger")
         }
     }
 
@@ -107,7 +111,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 <Button txt={txtButton} tipo="submit"/>
             </form>
 
-            {msgVisible && <Message txt={txtMessage} estilo={msgStyle}/>}
+            {message && <Message txt={msgTXT} estilo={estilo}/>}
             {carregamento && <Loading/>}
         </>
     )
