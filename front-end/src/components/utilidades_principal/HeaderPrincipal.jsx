@@ -35,6 +35,11 @@ function HeaderPrincipal({username, setPesquisa, PesquisarProduto, principalAtiv
         navigate("/principal", { state: {username} })
     }
 
+    // Função de Logout, para remover o token do localStorage
+    function Logout() { 
+        localStorage.removeItem("token")
+        navigate("/")
+    }
     return (
         <div className={style.header}>
             <img src={Logo} alt="Logo em svg do figma" onClick={redirecionarPrincipal}/>
@@ -82,9 +87,9 @@ function HeaderPrincipal({username, setPesquisa, PesquisarProduto, principalAtiv
                             <img src={icone_user} alt="icone do user do figma"/>
                         </Link>
 
-                    : <Link to="/">
+                    : <div onClick={Logout}>
                         <img src={user_logout} alt="icone do logout do figma"/>
-                    </Link>
+                    </div>
                     } 
 
                     

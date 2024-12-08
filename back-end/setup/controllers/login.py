@@ -1,7 +1,8 @@
 from setup import app
-from flask import request, jsonify, session
+from flask import request, jsonify
 from setup.models.table import Conexao
 import mysql.connector.errors
+from flask_jwt_extended import create_access_token
 
 # função para validação do login
 @app.route("/users", methods=["POST"])
@@ -18,13 +19,12 @@ def Logar():
         resultado = cursor.fetchone()
         if resultado:
             username = resultado["username"] # extrair username do resultado
-            session["username"] = username
-            return jsonify({
-                "Success": "Usuário com sucesso!",
-                "Username": username
-                }), 200
-        else:
-            return jsonify({"Error": "Usuário ou senha incorretos!"}), 401
+            
+            # Criar o token e envia-lo ao front-end
+            token = create_access_token(identity=username)
+            return jsonify(access_token=token, username=username)
+
+        return jsonify({"Error": "Usuário ou senha incorretos!"}), 401
 
     except Exception as e:
         print(f"Deu o erro ao logar: {str(e)}")
@@ -32,5 +32,8 @@ def Logar():
     finally:
         cursor.close()
         conectar.close()
+
+
+
     
 

@@ -33,7 +33,7 @@ function Produtos() {
             finally { setCarregamento(false) }
         }
         BuscarProdutos()
-    }, [])
+    }, [showMessage])
 
     return (
         <>

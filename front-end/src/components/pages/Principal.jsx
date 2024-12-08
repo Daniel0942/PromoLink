@@ -24,9 +24,14 @@ function Principal() {
     // função para enviar o site para o back-end 
     function EnviarSite(e) {
         e.preventDefault()
+        let token = localStorage.getItem("token")
         setCarregamento(true)
+
         if (site.length > 0) {
-            axios.post(`http://127.0.0.1:5000/produtos/${site}`)
+            // em post, o primeiro dicionário é o body e o segundo o headers
+            axios.post(`http://127.0.0.1:5000/produtos/${site}`, {}, {
+                headers: {"Authorization": `Bearer ${token}`}
+            })
             .then(()=> {
                 setCarregamento(false)
                 EnviarSiteHistorico()   
@@ -40,8 +45,7 @@ function Principal() {
         else { 
             setCarregamento(false)
             showMessage("Escolha um das opções", "danger")
-        }
-        
+        } 
     }
     
     // enviar o site para o back-end colocar no historico

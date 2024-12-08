@@ -1,6 +1,6 @@
 from setup.models.table import Conexao
 from setup import app
-from flask import jsonify, request, session
+from flask import jsonify, request
 from datetime import datetime
 
 @app.route("/historico/<string:username_id>", methods=["GET"])

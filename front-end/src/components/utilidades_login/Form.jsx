@@ -30,8 +30,12 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 password: password
             })
             setCarregamento(false)
-            let username = response.data.Username || "Falha na conexão com o servidor"
-            navigate("/principal", { state: {username} })
+            // Armazenar o token no localStorage
+            let token = response.data.access_token 
+            let username = response.data.username
+
+            localStorage.setItem("token", token)
+            navigate("/principal", {state: {username}})
         }
         catch(err) {
             setCarregamento(false)
