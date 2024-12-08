@@ -10,7 +10,6 @@ def Logar():
 
     email = data.get("email")
     password = data.get("password")
-    print(f"O email: {email}")
     try:
         conectar = Conexao()
         cursor = conectar.cursor(dictionary=True)
