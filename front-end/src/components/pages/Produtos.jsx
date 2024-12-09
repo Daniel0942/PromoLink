@@ -21,23 +21,28 @@ function Produtos() {
     useEffect(() => {
         let token = localStorage.getItem("token")
         let site = location.state.site
+
         async function BuscarProdutos() {
+            setCarregamento(true)
             try {
-                if ("Kabum" === site) {
-                    let response = await axios.get(`http://127.0.0.1:5000/produtos/kabum`, {
+                if (site === "Kabum") {
+                    let response = await axios.get(
+                        `http://127.0.0.1:5000/produtos/kabum`, {
                         headers: {"Authorization": `Bearer ${token}`}
                     })
                     setGerenciador(response.data) // Atualiza com os produtos
                 }
-                if ("Casas" === site) {
-                    let response = await axios.get(`http://127.0.0.1:5000/produtos/casasBahia`, {
+                if (site === "Casas Bahia") {
+                    let response = await axios.get(
+                        `http://127.0.0.1:5000/produtos/casasBahia`, {
                         headers: {"Authorization": `Bearer ${token}`}
                     })
                     setGerenciador(response.data) // Atualiza com os produtos
                 }
 
-                if ("Magazine" === site) {
-                    let response = await axios.get(`http://127.0.0.1:5000/produtos/magazine`, {
+                if (site === "Magazine Luiza") {
+                    let response = await axios.get(
+                        `http://127.0.0.1:5000/produtos/magazine`, {
                         headers: {"Authorization": `Bearer ${token}`}
                     })
                     setGerenciador(response.data) // Atualiza com os produtos

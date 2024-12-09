@@ -5,6 +5,7 @@ import Loading from "../utilidades_global/Loading"
 import Message from "../utilidades_global/Message"
 import { useState } from "react"
 import axios from "axios"
+import alert from "../../img/alert.gif"
 
 function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) {
     let [carregamento, setCarregamento] = useState(false)
@@ -82,10 +83,11 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                             />
                         </div>
                         ))
-                    ) : (
-                        <p>{favoritoAtivo ? "Nenhum produto salvo nos favoritos" 
-                            : "Nenhum site selecionado!"}</p>
-                    )}
+                    ) : <div className={style.boxError}>
+                            {favoritoAtivo ? <p>Nenhum favorito selecionado 🥲</p>
+                            : <img src={alert} alt="animação de lampâda"/>}
+                        </div>
+                    }
                 </div>
 
                 {carregamento && <Loading/>}
