@@ -33,7 +33,7 @@ def magazine():
 
 @app.route("/produtos/<string:site>", methods=["POST"])
 @jwt_required()
-def receber_requisisao(site):
+def receber_site(site):
     global produtos_casasBahia, produtos_kabum, produtos_magazine
 
     # Pegar o usuário atual do token recebido
