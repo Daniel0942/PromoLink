@@ -13,6 +13,7 @@ function Pesquisa() {
     let username = location.state?.username || "Visitante" //armazenar state do username
     let [carregamento, setCarregamento] = useState(false)
     let [gerenciadorPesquisa, setGerenciadorPesquisa] = useState([])
+    let token = localStorage.getItem("token")
 
     // Usando função importada para visibilidade da mensagem
     const { message, msgTXT, estilo, showMessage } = useMessage();
@@ -20,22 +21,31 @@ function Pesquisa() {
     // Função para buscar todo o resultado da pesquisa
     useEffect(() => {
         setCarregamento(true)
-        async function buscarPesquisa() {
-            try {
-                let response = await axios.get("http://127.0.0.1:5000/pesquisar")
-                // fazer achatamento da estrutura
-                let lista = response.data.flatMap((lista)=> lista)
-                setGerenciadorPesquisa(lista)
-                setCarregamento(false)
+        let pesquisa = location.state.pesquisa
+        if (pesquisa) {
+            async function buscarPesquisa() {
+                try {
+                    let response = await axios.get(
+                        `http://127.0.0.1:5000/pesquisar/${pesquisa}`, {
+                        headers: {"Authorization": `Bearer ${token}`}
+                    })
+                    // fazer achatamento da estrutura
+                    let lista = response.data.flatMap((lista)=> lista)
+                    setGerenciadorPesquisa(lista)
+                    setCarregamento(false)
+                }
+                catch (err) {
+                    setCarregamento(false)
+                    let msg = err.response.data.Error || "Falha na conexão com o servidor"
+                    showMessage(msg, "danger")
+                }
             }
-            catch (err) {
-                setCarregamento(false)
-                let msg = err.response.data.Error || "Falha na conexão com o servidor"
-                showMessage(msg, "danger")
-            }
+            buscarPesquisa()
+        } else {
+            showMessage("Ocorreu o erro na pesquisa")
         }
-        buscarPesquisa()
-    }, [])
+        
+    }, [location.state.pesquisa])
 
     return (
         <>
