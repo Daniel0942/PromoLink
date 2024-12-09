@@ -229,8 +229,8 @@ class PesquisaSite(ProdutosGet):
         return gerenciador
 
 # Testar localmente
-# instancia = PesquisaSite()
-# gerenciador = instancia.pesquisarCasasBahia("processador")
+# instancia = ProdutosGet()
+# gerenciador = instancia.magazine()
 # for c in gerenciador: 
 #     #print(c)
 #     print(f"O link: {c['link']}")

@@ -58,7 +58,7 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                             </div>
                             <p>{produto.produto}</p>
                             <p>
-                                <span> R$ {produto.preco ? produto.preco 
+                                <span>{produto.preco ? produto.preco
                             : "Preço não disponível"}
                                 </span>
                             </p>

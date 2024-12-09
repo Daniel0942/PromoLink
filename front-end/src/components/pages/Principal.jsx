@@ -22,24 +22,26 @@ function Principal() {
     const { message, msgTXT, estilo, showMessage } = useMessage();
 
     // função para enviar o site para o back-end 
-    function EnviarSite(e) {
+    async function EnviarSite(e) {
         e.preventDefault()
         let token = localStorage.getItem("token")
         setCarregamento(true)
 
         if (site.length > 0) {
             // em post, o primeiro dicionário é o body e o segundo o headers
-            axios.post(`http://127.0.0.1:5000/produtos/${site}`, {}, {
+            await axios.post(`http://127.0.0.1:5000/produtos/${site}`, {}, {
                 headers: {"Authorization": `Bearer ${token}`}
             })
             .then(()=> {
                 setCarregamento(false)
                 EnviarSiteHistorico()   
-                navigate("/principal/produtos", {state: {username}})
+                navigate("/principal/produtos", {state: {username, site}})
             })
             .catch(error => {
                 console.error(`Ocorreu o erro: ${error}`)
                 setCarregamento(false)
+                let msg = error.response.Error || "Falha na conexão com o servidor"
+                showMessage(msg, "danger")
             })
         }
         else { 

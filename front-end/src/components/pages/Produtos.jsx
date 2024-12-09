@@ -19,10 +19,30 @@ function Produtos() {
 
     // Função para buscar os produtos do back-end
     useEffect(() => {
+        let token = localStorage.getItem("token")
+        let site = location.state.site
         async function BuscarProdutos() {
             try {
-                let response = await axios.get("http://127.0.0.1:5000/produtos")
-                setGerenciador(response.data) // Atualiza com os produtos
+                if ("Kabum" === site) {
+                    let response = await axios.get(`http://127.0.0.1:5000/produtos/kabum`, {
+                        headers: {"Authorization": `Bearer ${token}`}
+                    })
+                    setGerenciador(response.data) // Atualiza com os produtos
+                }
+                if ("Casas" === site) {
+                    let response = await axios.get(`http://127.0.0.1:5000/produtos/casasBahia`, {
+                        headers: {"Authorization": `Bearer ${token}`}
+                    })
+                    setGerenciador(response.data) // Atualiza com os produtos
+                }
+
+                if ("Magazine" === site) {
+                    let response = await axios.get(`http://127.0.0.1:5000/produtos/magazine`, {
+                        headers: {"Authorization": `Bearer ${token}`}
+                    })
+                    setGerenciador(response.data) // Atualiza com os produtos
+                }
+                
             }
             catch (err) {
                 console.error(`Erro ao buscar produtos: ${err}`);
@@ -32,8 +52,10 @@ function Produtos() {
             }
             finally { setCarregamento(false) }
         }
-        BuscarProdutos()
-    }, [showMessage])
+        if (site) {
+            BuscarProdutos()
+        } else {console.error("Sem site!")}
+    }, [location.state.site])
 
     return (
         <>

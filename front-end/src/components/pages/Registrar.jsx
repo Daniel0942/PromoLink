@@ -14,7 +14,7 @@ function Registrar() {
             type2="password" 
             txtButton="Cadastrar"
             txt_P1="Já tem conta?"
-            txt_P2="logue aqui"
+            txt_P2="Logue aqui"
             rota_link="/"
             requisisao="registrar"/>
         </>
