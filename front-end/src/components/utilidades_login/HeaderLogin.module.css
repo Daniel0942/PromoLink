@@ -4,8 +4,19 @@
     background-image: url("../../img/background_Elipse.svg");
     background-repeat: no-repeat;
     background-size: contain;
-    background-position: center;
+    background-position: top;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+/* Responsividade */
+@media (max-width: 920px) {
+    .header {
+        background-size: auto;
+        max-height: 150px;
+        & img {
+            width: 100px;
+        }
+    }
 }
