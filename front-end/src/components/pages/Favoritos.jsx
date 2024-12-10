@@ -14,7 +14,8 @@ function Favoritos() {
     let [gerenciadorFavoritos, setGerenciadorFavoritos] = useState([])
     let favoritoAtivo = true
     let [carregamento, setCarregamento] = useState(false)
-
+    let token = localStorage.getItem("token")
+    
     // Usando função importada para visibilidade da mensagem
     const { message, msgTXT, estilo, showMessage } = useMessage();
 
@@ -22,7 +23,9 @@ function Favoritos() {
         setCarregamento(true)
         async function BuscarFavoritos() {
             try {
-                let response = await axios.get(`http://127.0.0.1:5000/favoritos/${username}`)
+                let response = await axios.get(`http://127.0.0.1:5000/favoritos/${username}`, {
+                    headers: {"Authorization": `Bearer ${token}`}
+                })
                 setGerenciadorFavoritos(response.data)
                 setCarregamento(false)
             } 

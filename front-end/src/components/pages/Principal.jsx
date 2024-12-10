@@ -55,6 +55,9 @@ function Principal() {
         axios.post(`http://127.0.0.1:5000/historico`, {
             username_id: username,
             site: site
+        },
+        {
+            headers: {"Authorization": `Bearer ${token}`}
         })
         .catch(erro => {console.error(`Ocorreu ao enviar o siteHistorico: ${erro}`)})
     }

@@ -1,9 +1,11 @@
 from setup import app
 from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from setup.models.table import Conexao
 import mysql.connector.errors
 
 @app.route("/favoritos/<string:username_id>", methods=["GET"])
+@jwt_required()
 def favoritos_index(username_id):
     conectar = Conexao()
     cursor = conectar.cursor(dictionary=True)
@@ -14,10 +16,11 @@ def favoritos_index(username_id):
     return jsonify(favoritos)
 
 @app.route("/favoritos", methods=["POST"])
+@jwt_required()
 def adicionar_favorito():
     data = request.get_json()
 
-    username_id = data.get("username_id")
+    username = get_jwt_identity()
     site = data.get("site")
     produto = data.get("produto")
     url = data.get("url")
@@ -27,7 +30,7 @@ def adicionar_favorito():
     try:
         conectar = Conexao()
         cursor = conectar.cursor()
-        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s)", (username_id, url, site, produto, preco, link))
+        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s)", (username, url, site, produto, preco, link))
         conectar.commit()
         return jsonify({"Success": "Produto inserido com sucesso!"}), 200
     except mysql.connector.errors.IntegrityError as erro: 

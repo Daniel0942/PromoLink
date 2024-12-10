@@ -9,7 +9,7 @@ import alert from "../../img/alert.gif"
 
 function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) {
     let [carregamento, setCarregamento] = useState(false)
-
+    let token = localStorage.getItem("token")
     // função para exibição de mensagens dinâmicas
     let [message, setMessage] = useState(false)
     let [msgTXT, setmsgTXT] = useState()
@@ -34,6 +34,9 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                 produto: produto,
                 preco: preco,
                 url: url
+            }, 
+            {
+                headers: {"Authorization": `Bearer ${token}`}
             })
             setCarregamento(false)
             setMessage(true)
