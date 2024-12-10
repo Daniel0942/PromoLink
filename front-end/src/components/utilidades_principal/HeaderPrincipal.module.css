@@ -80,9 +80,15 @@
         height: 100%;
         background-color: #2A2E35;
         position: absolute;
+        top: 0px;
         right: 0px;
+        z-index: 99999;
         transition: .3s;
         display: none;
+        /* Ativando menu com a classe JS */
+        &.Menu_JS {
+            display: block;
+        }
 
         & .box_btn_txt {
             display: flex;
@@ -106,11 +112,13 @@
     }
 }
 
-/* Ativando menu com a classe JS */
-.menu.Menu_JS {
-    display: block;
-}
 /* Responsividade */
+@media (max-width: 866px) {
+    & .menu {
+        width: 550px;
+    }
+}
+
 @media (max-width: 740px) AND (min-width:648px){
     .header {
         height: 100%;
@@ -141,6 +149,17 @@
             margin-top: 0px;
             & img {
                 width: 60px;
+            }
+        }
+
+        & .menu {
+            width: 450px;
+            & h1 {
+                font-size: 19px;
+            }
+            & img {
+                width: 80px;
+                height: 84px;
             }
         }
     }  
@@ -180,7 +199,14 @@
             }
         }
         & .menu {
-            
+            width: 350px;
+            & h1 {
+                font-size: 19px;
+            }
+            & img {
+                width: 80px;
+                height: 84px;
+            }
         }
     }
 }
