@@ -12,7 +12,7 @@
 
     & .box_produtos {
         display: flex;
-        width: 300px;
+        width: 200px;
         padding: 20px 15px;
         flex-direction: column;
         justify-content: center;
@@ -26,8 +26,8 @@
 
         & .box_img {
             & img {
-                width: 250px;
-                height: 250px;
+                width: 150px;
+                height: 150px;
                 border-radius: 10px;
             }
         }
