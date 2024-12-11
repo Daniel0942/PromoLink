@@ -1,9 +1,11 @@
 from setup import app
 from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from setup.models.table import Conexao
 import mysql.connector.errors
 
 @app.route("/favoritos/<string:username_id>", methods=["GET"])
+@jwt_required()
 def favoritos_index(username_id):
     conectar = Conexao()
     cursor = conectar.cursor(dictionary=True)
@@ -14,36 +16,21 @@ def favoritos_index(username_id):
     return jsonify(favoritos)
 
 @app.route("/favoritos", methods=["POST"])
+@jwt_required()
 def adicionar_favorito():
     data = request.get_json()
 
-    username_id = data.get("username_id")
+    username = get_jwt_identity()
     site = data.get("site")
     produto = data.get("produto")
     url = data.get("url")
     link = data.get("link")
-
-    # O preco vem com "R$", e "," e pode ter valores com mais de um ponto.
-    # Remover "R$", substituir "," por "." e corrigir separadores de milhar.
-    preco_sifrão = data.get("preco")
-    if "juros" not in preco_sifrão and "Preço não disponível" not in preco_sifrão:
-        preco = preco_sifrão[3:].replace(",", ".")  # Remove "R$" e troca "," por "."
-        if preco.count(".") > 1:  # Se houver mais de um ponto, remova os extras.
-            preco = preco.replace(".", "", preco.count(".") - 1)
-
-    elif "juros" in preco_sifrão:
-        preco = preco_sifrão.split()[1] # Separa por espaço e pega o segundo valor
-        preco = preco.replace(",", ".")
-        if preco.count(".") > 1:
-            preco = preco.replace(".", "", preco.count(".") - 1)
-
-    elif "Preço não disponível" in preco_sifrão:
-        preco = None
+    preco = data.get("preco")
 
     try:
         conectar = Conexao()
         cursor = conectar.cursor()
-        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s)", (username_id, url, site, produto, preco, link))
+        cursor.execute("INSERT INTO favoritos (username_id, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s)", (username, url, site, produto, preco, link))
         conectar.commit()
         return jsonify({"Success": "Produto inserido com sucesso!"}), 200
     except mysql.connector.errors.IntegrityError as erro: 

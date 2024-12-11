@@ -6,8 +6,10 @@ import Message from "../utilidades_global/Message"
 import { useLocation, useNavigate } from "react-router-dom"
 import axios from "axios"
 import Loading from "../utilidades_global/Loading"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Principal() {
+    let token = localStorage.getItem("token")
     let location = useLocation() //buscar state da página
     let username = location.state?.username || "Visitante" //armazenar state do username
     let gerenciador = []
@@ -17,33 +19,35 @@ function Principal() {
     let navigate = useNavigate()
     let principalAtivo = true
 
-    // função para exibição de mensagens dinâmicas
-    let [message, setMessage] = useState(false)
-    let [msgTXT, setmsgTXT] = useState()
-    let [estilo, setEstilo] = useState()
-    function showMessage(txt, style) {
-        setMessage(true)
-        setmsgTXT(txt)
-        setEstilo(style)
-        setTimeout(() => {
-            setMessage(false)
-        }, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
 
     // função para enviar o site para o back-end 
-    function EnviarSite(e) {
+    async function EnviarSite(e) {
         e.preventDefault()
         setCarregamento(true)
-        axios.post(`http://127.0.0.1:5000/produtos/${site}`)
-        .then(()=> {
+
+        if (site.length > 0) {
+            // em post, o primeiro dicionário é o body e o segundo o headers
+            await axios.post(`http://127.0.0.1:5000/produtos/${site}`, {}, {
+                headers: {"Authorization": `Bearer ${token}`}
+            })
+            .then(()=> {
+                setCarregamento(false)
+                EnviarSiteHistorico()   
+                navigate("/principal/produtos", {state: {username, site}})
+            })
+            .catch(error => {
+                console.error(`Ocorreu o erro: ${error}`)
+                setCarregamento(false)
+                let msg = error.response.Error || "Falha na conexão com o servidor"
+                showMessage(msg, "danger")
+            })
+        }
+        else { 
             setCarregamento(false)
-            EnviarSiteHistorico()   
-            navigate("/principal/produtos", {state: {username}})
-        })
-        .catch(error => {
-            console.error(`Ocorreu o erro: ${error}`)
-            setCarregamento(false)
-        })
+            showMessage("Escolha um das opções", "danger")
+        } 
     }
     
     // enviar o site para o back-end colocar no historico
@@ -51,26 +55,37 @@ function Principal() {
         axios.post(`http://127.0.0.1:5000/historico`, {
             username_id: username,
             site: site
+        },
+        {
+            headers: {"Authorization": `Bearer ${token}`}
         })
         .catch(erro => {console.error(`Ocorreu ao enviar o siteHistorico: ${erro}`)})
     }
 
     // função para mandar a pesquisa para o back-end, ai o back-end faz a busca e retorna resultado completo
     async function PesquisarProduto() {
-        setCarregamento(true)
-        try {
-            let response = await axios.post(`http://127.0.0.1:5000/pesquisar/${pesquisa}`)
-            setCarregamento(false)
-            let msg = response.data.Success || "Falha na conexão com o servidor"
-            showMessage(msg, "sucess")
-            navigate("/principal/pesquisa", {state: {username}})
+        if (pesquisa) {
+            setCarregamento(true)
+            try {
+                let response = await axios.post(
+                    `http://127.0.0.1:5000/pesquisar/${pesquisa}`, {}, {
+                        headers: {"Authorization": `Bearer ${token}`}
+                    })
+                setCarregamento(false)
+                let msg = response.data.Success || "Falha na conexão com o servidor"
+                showMessage(msg, "sucess")
+                navigate("/principal/pesquisa", {state: {username, pesquisa}})
+            }
+            catch (err) {
+                setCarregamento(false)
+                console.error(`Ocorreu o erro: ${err}`)
+                let msg = err.response.data.Error || "Falha na conexão com o servidor"
+                showMessage(msg, "danger")
+            }
+        } else {
+            showMessage("Preencha o campo de pesquisa!", "danger")
         }
-        catch (err) {
-            setCarregamento(false)
-            console.error(`Ocorreu o erro: ${err}`)
-            let msg = err.response.data.Error || "Falha na conexão com o servidor"
-            showMessage(msg, "danger")
-        }
+        
     }
 
     return (

@@ -230,7 +230,7 @@ class PesquisaSite(ProdutosGet):
 
 # Testar localmente
 # instancia = PesquisaSite()
-# gerenciador = instancia.pesquisarCasasBahia("processador")
+# gerenciador = instancia.pesquisarMagazine("cpu")
 # for c in gerenciador: 
 #     #print(c)
 #     print(f"O link: {c['link']}")

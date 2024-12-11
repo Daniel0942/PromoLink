@@ -9,77 +9,71 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import Message from "../utilidades_global/Message.jsx"
 import Loading from "../utilidades_global/Loading.jsx"
+import useMessage from "../utilidades_global/MessageFunction.js"
 
 function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_P1, txt_P2, rota_link , requisisao}) {
     let [username, setUsername] = useState("")
     let [email, setEmail] = useState("")
     let [password, setPassword] = useState("")
-    let [msgVisible, setMsgVisible] = useState(false)
-    let [txtMessage, setTxtMessage] = useState("") 
-    let [msgStyle, setMsgStyle] = useState("")
     let navigate = useNavigate() // redirecionamentos
     let [carregamento, setCarregamento] = useState(false)
 
-    // função de mostrar msg de erro ou sucesso [danger, sucess]
-    function ShowMsg(msg, style) {
-        setTxtMessage(msg) 
-        setMsgStyle(style)
-        setMsgVisible(true)
-        setTimeout(()=> {setMsgVisible(false)}, 3000)
-    }
+    // Usando função importada para visibilidade da mensagem
+    const { message, msgTXT, estilo, showMessage } = useMessage();
     
-    function Logar(e) {
+    async function Logar(e) {
         setCarregamento(true)
         e.preventDefault()
-        axios.get("http://127.0.0.1:5000/users")
-        .then(response => {
+        try {
+            let response = await axios.post("http://127.0.0.1:5000/users", {
+                email: email,
+                password: password
+            })
             setCarregamento(false)
-            let dados = response.data
-            if (dados) { 
-                let user = dados.find((user)=> user.email === email && user.password === password)
-                // se tiver email e senha será redirecionado
-                if (user) {
-                    // O navigate do React Router permite passar um objeto state para a próxima página.
-                    navigate("/principal", {state: {username: user.username}})
-                } 
-                else {
-                    setEmail("")
-                    setPassword("")
-                    ShowMsg("Usuário ou senha incorretos!", "danger")
-                }  
-            }
-        })
-        .catch((error) => {
+            // Armazenar o token no localStorage
+            let token = response.data.access_token 
+            let username = response.data.username
+
+            localStorage.setItem("token", token)
+            navigate("/principal", {state: {username}})
+        }
+        catch(err) {
             setCarregamento(false)
-            console.log(`Ocorreu o erro: ${error}`)
-            ShowMsg("[ERROR], Sem conexão com o servidor", "danger")
-        })  
+            setEmail("")
+            setPassword("")
+            let msg = err.response.data.Error || "Falha na conexão com o servidor"
+            showMessage(msg, "danger")
+        }
     }
 
     function Registrar(e) { 
         setCarregamento(true)
         e.preventDefault()
         if (username.length > 0 && email.length > 0 && password.length > 0) { 
-            axios.post("http://127.0.0.1:5000/users", {
+            axios.post("http://127.0.0.1:5000/registrar", {
                 username: username,
                 email: email,
                 password: password
             })
-            .then(()=>{
+            .then((response)=>{
                 setCarregamento(false)
-                ShowMsg(`${username} registrado com sucesso`, "sucess")
+                let msg = response.data.Success || "Falha na conexão com o servidor"
+                showMessage(msg, "sucess")
                 setTimeout(()=> {
                     navigate("/")
                 }, 3000)   
             })
+
             .catch((error)=> {
                 setCarregamento(false)
                 // pegando respostas do servidor, mandados lá do back-end
-                if (error.response) {
-                    let servidor_msg = error.response.data.ERRO
-                    ShowMsg(servidor_msg, "danger")
-                }
+                let msg = error.response.data.Error || "Falha na conexão com o servidor"
+                showMessage(msg, "danger")
             })
+        }
+        else {
+            setCarregamento(false)
+            showMessage("Preencha todos os campos do formulário!", "danger")
         }
     }
 
@@ -112,7 +106,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
                 <Button txt={txtButton} tipo="submit"/>
             </form>
 
-            {msgVisible && <Message txt={txtMessage} estilo={msgStyle}/>}
+            {message && <Message txt={msgTXT} estilo={estilo}/>}
             {carregamento && <Loading/>}
         </>
     )

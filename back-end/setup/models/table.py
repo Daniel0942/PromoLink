@@ -10,7 +10,7 @@ def Conexao():
         user = os.getenv("user"),
         password = os.getenv("password"),
         database = os.getenv("database"),
-        port = int(os.getenv("port"))
+        #port = int(os.getenv("port"))
     )
     return db
 
@@ -33,7 +33,7 @@ def CriarTabelas():
             url TEXT NOT NULL,
             site VARCHAR(100) NOT NULL,
             produto TEXT NOT NULL,
-            preco DECIMAL(10, 2) NULL,
+            preco TEXT NOT NULL,
             link TEXT NOT NULL,
             FOREIGN KEY (username_id) REFERENCES users(username)
         )""")
@@ -48,6 +48,19 @@ def CriarTabelas():
     FOREIGN KEY (username_id) REFERENCES users(username)
     )""")
     conectar.commit()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS pesquisas (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+            username_id VARCHAR(100) NOT NULL,
+            pesquisa VARCHAR(100) NOT NULL,
+            url TEXT NOT NULL,
+            site VARCHAR(100) NOT NULL,
+            produto TEXT NOT NULL,
+            preco TEXT NULL,
+            link TEXT NOT NULL, 
+            FOREIGN KEY (username_id) REFERENCES users(username)
+    )""")
 
     cursor.close()
     conectar.close()

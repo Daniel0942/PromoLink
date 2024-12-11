@@ -6,7 +6,7 @@ function MiniForm({setSite, função}) {
         <form action="" className={style.form} onSubmit={função}>
             <label>Selecione o site</label>
 
-            <select name="site" onClick={(e)=> setSite(e.target.value)}>
+            <select name="site" onClick={(e)=> setSite(e.target.value)} required>
                 <option value="">Escolha uma das opções</option>
                 <option value="Kabum">Kabum</option>
                 <option value="Casas Bahia">Casas Bahia</option>

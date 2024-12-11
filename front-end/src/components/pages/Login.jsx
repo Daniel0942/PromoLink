@@ -13,7 +13,7 @@ function Login() {
             txtButton="Logar" 
             txtTitulo="Login" 
             txt_P1="Não tem conta?"
-            txt_P2="cadastre-se aqui"
+            txt_P2="Cadastre-se aqui"
             rota_link="/registrar"
             requisisao="logar"/> 
         </>

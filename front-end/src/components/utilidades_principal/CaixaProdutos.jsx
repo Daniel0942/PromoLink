@@ -5,10 +5,11 @@ import Loading from "../utilidades_global/Loading"
 import Message from "../utilidades_global/Message"
 import { useState } from "react"
 import axios from "axios"
+import alert from "../../img/alert.gif"
 
 function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) {
     let [carregamento, setCarregamento] = useState(false)
-
+    let token = localStorage.getItem("token")
     // função para exibição de mensagens dinâmicas
     let [message, setMessage] = useState(false)
     let [msgTXT, setmsgTXT] = useState()
@@ -33,6 +34,9 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                 produto: produto,
                 preco: preco,
                 url: url
+            }, 
+            {
+                headers: {"Authorization": `Bearer ${token}`}
             })
             setCarregamento(false)
             setMessage(true)
@@ -58,7 +62,7 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                             </div>
                             <p>{produto.produto}</p>
                             <p>
-                                <span> R$ {produto.preco ? produto.preco 
+                                <span>{produto.preco ? produto.preco
                             : "Preço não disponível"}
                                 </span>
                             </p>
@@ -82,10 +86,11 @@ function CaixaProdutos({username, gerenciador, favoritoAtivo, removerFavorito}) 
                             />
                         </div>
                         ))
-                    ) : (
-                        <p>{favoritoAtivo ? "Nenhum produto salvo nos favoritos" 
-                            : "Nenhum site selecionado!"}</p>
-                    )}
+                    ) : <div className={style.boxError}>
+                            {favoritoAtivo ? <p>Nenhum favorito selecionado 🥲</p>
+                            : <img src={alert} alt="animação de lampâda"/>}
+                        </div>
+                    }
                 </div>
 
                 {carregamento && <Loading/>}
