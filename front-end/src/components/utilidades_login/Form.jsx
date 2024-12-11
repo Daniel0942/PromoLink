@@ -42,7 +42,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
             setEmail("")
             setPassword("")
             
-            let msg = erro.response.data.Error || "Falha na conexão com o servidor"
+            let msg = err.response.data.Error || "Falha na conexão com o servidor"
             showMessage(msg, "danger")
         }
     }
