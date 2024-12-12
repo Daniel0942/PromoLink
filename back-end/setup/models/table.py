@@ -10,7 +10,7 @@ def Conexao():
         user = os.getenv("user"),
         password = os.getenv("password"),
         database = os.getenv("database"),
-        #port = int(os.getenv("port"))
+        port = int(os.getenv("port"))
     )
     return db
 
@@ -64,3 +64,9 @@ def CriarTabelas():
 
     cursor.close()
     conectar.close()
+
+# conectar = Conexao()
+# cursor = conectar.cursor()
+# cursor.execute("DROP TABLE `users`")
+# cursor.close()
+# conectar.close()
