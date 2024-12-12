@@ -23,7 +23,7 @@ function Form({ txtTitulo, txt1, txt2, type1, type2, txtButton, input_user, txt_
 
     async function Logar(e) {
         e.preventDefault()
-        if (email.length > 0 && password.length > 0) {
+        if (email && password) {
             setCarregamento(true)
             try {
                 let response = await axios.post("http://127.0.0.1:5000/users", {
