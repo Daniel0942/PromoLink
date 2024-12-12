@@ -30,7 +30,6 @@ def pesquisar(pesquisa):
         gerenciadorProdutos.append(instancia.pesquisarKabum(pesquisa))
         gerenciadorProdutos.append(instancia.pesquisarCasasBahia(pesquisa))
         gerenciadorProdutos.append(instancia.pesquisarMagazine(pesquisa))
-
         try:
             conectar = Conexao()
             cursor = conectar.cursor()
@@ -58,10 +57,8 @@ def pesquisar(pesquisa):
                     cursor.execute("SELECT url FROM pesquisas WHERE url = %s", (url,))
                     resultado_url = cursor.fetchone()
                     if not resultado_url:  # Se não existir, insira no banco
-                        cursor.execute(
-                            "INSERT INTO pesquisas (username_id, pesquisa, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-                            (username, pesquisa, url, site, produto, preco, link)
-                            )
+                        cursor.execute("INSERT INTO pesquisas (username_id, pesquisa, url, site, produto, preco, link) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                            (username, pesquisa, url, site, produto, preco, link))
             conectar.commit()
 
         except Exception as e:

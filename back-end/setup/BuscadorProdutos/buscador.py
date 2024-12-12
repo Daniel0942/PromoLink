@@ -152,10 +152,10 @@ class PesquisaSite(ProdutosGet):
         navbar = self.navegador.find_element(By.XPATH, '//*[@id="input-search"]')
         navbar.send_keys(pesquisa) # digita a pesquisa mandada por parâmetro
         navbar.send_keys(Keys.ENTER)
-        sleep(3)
+        sleep(5)
 
         # Pegar link, nome, preco e url da imagem tudo apartir de uma classe de li (lista).
-        tags_li = self.navegador.find_elements(By.CLASS_NAME, "sc-iNIeMn")
+        tags_li = self.navegador.find_elements(By.CLASS_NAME, "sc-fTyFcS")
 
         # Pegar link direto da li 
         links = [tag.find_element(By.TAG_NAME, "a").get_attribute("href") for tag in tags_li]
@@ -224,7 +224,7 @@ class PesquisaSite(ProdutosGet):
             for link, url, produto, preco in zip(links, urls_imgs, produtos, precos):
                 gerenciador.append({"link": link, "url": url, "produto": produto, "preco": preco})
         else:
-            print(f"Erro:O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
+            print(f"Erro: O número de links {len(links)}, produtos {len(produtos)}, precos {len(precos)} e urls {len(urls_imgs)}. Não são correspondentes!")
 
         return gerenciador
 
