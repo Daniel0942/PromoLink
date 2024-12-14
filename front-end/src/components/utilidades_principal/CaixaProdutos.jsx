@@ -95,13 +95,13 @@ function CaixaProdutos({ username, gerenciador, favoritoAtivo, removerFavorito }
                             />
 
                             <div className={style.logo_site}>
-                                {produto.url.includes("casasbahia") ? (
+                                {produto.link.includes("casasbahia") ? (
                                     <img src={casasBahia} alt="Logo da Casas bahia" />
-                                ) : produto.url.includes("magazine") ? (
+                                ) : produto.link.includes("magazine") ? (
                                     <img src={magazine} alt="Logo da Magazine" />
-                                ) : (
+                                ) : produto.link.includes("kabum") ? (
                                     <img src={kabum} alt="Logo da Kabum" />
-                                )}
+                                ) : null}
                             </div>
                         </div>
                     ))
