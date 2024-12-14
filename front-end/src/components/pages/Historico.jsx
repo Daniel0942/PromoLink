@@ -7,36 +7,42 @@ import BtnBack from "../utilidades_global/BtnBack";
 import Loading from "../utilidades_global/Loading";
 
 function Historico() {
-    let location = useLocation() //buscar state da página
-    let username = location.state?.username || "Visitante" //armazenar state do username
-    let token = localStorage.getItem("token")
-    let [carregamento, setCarregamento] = useState(false)
-    let [gerenciadorHistorico, setGerenciadorHistorico] = useState([])
+    let location = useLocation(); //buscar state da página
+    let username = location.state?.username || "Visitante"; //armazenar state do username
+    let token = localStorage.getItem("token");
+    let [carregamento, setCarregamento] = useState(false);
+    let [gerenciadorHistorico, setGerenciadorHistorico] = useState([]);
 
-    useEffect(()=>{
-        setCarregamento(true)
-        let buscarHistorico = async ()=> {
+    useEffect(() => {
+        setCarregamento(true);
+        let buscarHistorico = async () => {
             try {
-                let response = await axios.get(`http://127.0.0.1:5000/historico/${username}`, {
-                    headers: {"Authorization": `Bearer ${token}`}
-                })
-                setGerenciadorHistorico(response.data)
-            } catch(err) {
-                console.error(`Ocorreu o erro ao puxar o historico: ${err}`)
+                let response = await axios.get(
+                    `http://127.0.0.1:5000/historico/${username}`,
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
+                setGerenciadorHistorico(response.data);
+            } catch (err) {
+                console.error(`Ocorreu o erro ao puxar o historico: ${err}`);
+            } finally {
+                setCarregamento(false);
             }
-            finally {setCarregamento(false)}
-        }
-        buscarHistorico()
-    }, [username])
+        };
+        buscarHistorico();
+    }, [username]);
 
     return (
         <>
-            <HeaderPrincipal username={username}/>
-            <BtnBack/>
-            {carregamento && <Loading/>}
-            <Table gerenciadorHistorico={gerenciadorHistorico}
-            username={username} />
+            <HeaderPrincipal username={username} />
+            <BtnBack />
+            {carregamento && <Loading />}
+            <Table
+                gerenciadorHistorico={gerenciadorHistorico}
+                username={username}
+            />
         </>
-    )
+    );
 }
-export default Historico
+export default Historico;

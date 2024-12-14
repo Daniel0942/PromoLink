@@ -11,6 +11,7 @@
     box-shadow: 3px 3px 8px #00000093;
 
     & .box_produtos {
+        position: relative;
         display: flex;
         width: 200px;
         padding: 20px 15px;
@@ -83,12 +84,22 @@
                 }
             }
         }
+        & .logo_site {
+            position: absolute;
+            top: 0%;
+            right: 0%;
+            & img {
+                width: 30px;
+                height: 30px;
+            }
+        }
     }
 
     & p {
         font-size: 16px;
         font-weight: 700;
     }
+    
 }
 
 .boxError {
