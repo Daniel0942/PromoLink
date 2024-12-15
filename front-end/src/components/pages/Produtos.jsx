@@ -26,39 +26,28 @@ function Produtos() {
             setCarregamento(true);
             try {
                 if (site === "Kabum") {
-                    let response = await axios.get(
-                        "http://127.0.0.1:5000/produtos/kabum",
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
+                    let response = await axios.get("http://127.0.0.1:5000/produtos/kabum", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
                     setGerenciador(response.data); // Atualiza com os produtos
                 }
                 if (site === "Casas Bahia") {
-                    let response = await axios.get(
-                        "http://127.0.0.1:5000/produtos/casasBahia",
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
+                    let response = await axios.get("http://127.0.0.1:5000/produtos/casasBahia", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
                     setGerenciador(response.data); // Atualiza com os produtos
                 }
 
                 if (site === "Magazine Luiza") {
-                    let response = await axios.get(
-                        "http://127.0.0.1:5000/produtos/magazine",
-                        {
-                            headers: { Authorization: `Bearer ${token}` },
-                        }
-                    );
+                    let response = await axios.get("http://127.0.0.1:5000/produtos/magazine", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
                     setGerenciador(response.data); // Atualiza com os produtos
                 }
             } catch (err) {
                 console.error(`Erro ao buscar produtos: ${err}`);
                 // Verifica se tem resposta, se não tiver há uma falha na conexão.
-                let msg =
-                    err.response.data.Error ||
-                    "Falha na conexão com o servidor!";
+                let msg = err.response.data.Error || "Falha na conexão com o servidor!";
                 showMessage(msg, "danger");
             } finally {
                 setCarregamento(false);

@@ -6,6 +6,7 @@ import Historico from "./components/pages/Historico";
 import Favoritos from "./components/pages/Favoritos";
 import Pesquisa from "./components/pages/Pesquisa";
 import Produtos from "./components/pages/Produtos";
+import RefreshToken from "./components/pages/RefreshToken";
 
 function App() {
   return (
@@ -13,11 +14,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Login/>}/>
         <Route path="/registrar" element={<Registrar/>}/>
-        <Route path="/principal" element={<Principal/>}/>
-        <Route path="/principal/produtos" element={<Produtos/>}/>
-        <Route path="/principal/historico" element={<Historico/>}/>
-        <Route path="/principal/favoritos" element={<Favoritos/>}/>
-        <Route path="/principal/pesquisa" element={<Pesquisa/>}/>
+        <Route path="/principal" element={<RefreshToken><Principal/></RefreshToken>}/>
+        <Route path="/principal/produtos" element={<RefreshToken><Produtos/></RefreshToken>}/>
+        <Route path="/principal/historico" element={<RefreshToken><Historico/></RefreshToken>}/>
+        <Route path="/principal/favoritos" element={<RefreshToken><Favoritos/></RefreshToken>}/>
+        <Route path="/principal/pesquisa" element={<RefreshToken><Pesquisa/></RefreshToken>}/>
       </Routes>
     </Router>
   );
