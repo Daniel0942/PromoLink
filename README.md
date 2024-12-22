@@ -1,7 +1,7 @@
 ### PromoLink
-projeto full-stack para ver principais produtos em promoção da Magazine, Casas Bahia e a Kabum.
+Projeto Full-Stack para ver principais produtos em promoção da Magazine, Casas Bahia e a Kabum.
 
-Link do site: https://promo-link.vercel.app/
+[![Site](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=About.me&logoColor=white)](https://promo-link.vercel.app/)
 #### Atenção! config do back-end com selenium sem hospedagem, ainda.
 
 ***
