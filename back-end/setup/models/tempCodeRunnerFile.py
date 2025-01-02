@@ -1,5 +1,0 @@
-conectar = Conexao()
-cursor = conectar.cursor()
-cursor.execute("SHOW tables")
-tables = cursor.fetchall()
-print(tables)

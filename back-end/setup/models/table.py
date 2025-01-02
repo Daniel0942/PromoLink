@@ -64,9 +64,3 @@ def CriarTabelas():
 
     cursor.close()
     conectar.close()
-
-# conectar = Conexao()
-# cursor = conectar.cursor()
-# cursor.execute("DROP TABLE `users`")
-# cursor.close()
-# conectar.close()
